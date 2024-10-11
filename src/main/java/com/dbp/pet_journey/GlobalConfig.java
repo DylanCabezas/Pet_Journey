@@ -1,4 +1,4 @@
-package com.dbp.pet_journey.config;
+package com.dbp.pet_journey;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

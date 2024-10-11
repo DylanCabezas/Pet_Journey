@@ -1,4 +1,4 @@
-package com.dbp.pet_journey.cuidador.repository;
+package com.dbp.pet_journey.cuidador.infraestructure;
 
 import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import org.springframework.data.jpa.repository.JpaRepository;
