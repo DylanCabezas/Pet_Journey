@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-<<<<<<< HEAD
 
-=======
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
 @Setter
 @Getter
 @Entity
@@ -18,10 +15,6 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
     private String nombre;
 
     private String description;
@@ -32,9 +25,5 @@ public class Servicio {
 
     @ManyToMany
     private List<Mascota> mascotas;
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
 }

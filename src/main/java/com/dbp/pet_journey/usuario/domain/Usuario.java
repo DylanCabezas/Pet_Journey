@@ -8,25 +8,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-<<<<<<< HEAD
 
-=======
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
 @Getter
 @Setter
 @Entity
 public class Usuario {
     @Id
-<<<<<<< HEAD
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-
-=======
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
     private String name;
 
     private String password;
@@ -45,9 +35,5 @@ public class Usuario {
 
     @OneToMany
     private List<Mascota> mascotas;
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
 }
