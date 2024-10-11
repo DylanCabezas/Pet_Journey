@@ -1,4 +1,4 @@
-package com.dbp.pet_journey.Servicio;
+package com.dbp.pet_journey.servicio.domain;
 
 public enum TipoServicio {
     Alimentacion,
