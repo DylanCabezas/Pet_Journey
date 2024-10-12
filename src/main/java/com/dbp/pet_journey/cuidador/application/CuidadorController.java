@@ -15,7 +15,7 @@ public class CuidadorController {
 
     @PostMapping()
     public ResponseEntity<Void> saveMascota(@RequestBody CuidadorRequestDto cuidadorRequestDto) {
-            cuidadorService.saveCuidador(cuidadorRequestDto);
+        cuidadorService.saveCuidador(cuidadorRequestDto);
         return ResponseEntity.created(null).build();
     }
 

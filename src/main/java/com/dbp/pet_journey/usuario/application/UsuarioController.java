@@ -41,11 +41,11 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
     }
-
-
+  
     @PutMapping("/{usuarioId}/agregar_mascota")
     public ResponseEntity<Usuario> agregarMascota(@PathVariable Long usuarioId, @RequestBody MascotaRequestDto nuevaMascota) {
         Usuario usuarioActualizado = usuarioService.agregarMascota(usuarioId, nuevaMascota);
         return ResponseEntity.ok(usuarioActualizado);
     }
+
 }

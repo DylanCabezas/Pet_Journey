@@ -4,6 +4,7 @@ import com.dbp.pet_journey.mascota.domain.MascotaService;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaResponseDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateRequestDto;
+import com.dbp.pet_journey.mascota.dto.MascotaUpdateResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class MascotaController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MascotaResponseDto> updateMascota(
+    public ResponseEntity<MascotaUpdateResponseDto> updateMascota(
             @PathVariable Long id,
             @RequestBody MascotaUpdateRequestDto mascotaUpdateRequestDto) {
 
