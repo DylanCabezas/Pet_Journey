@@ -6,6 +6,9 @@ import com.dbp.pet_journey.mascota.dto.MascotaResponseDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateResponseDto;
 import com.dbp.pet_journey.mascota.infraestructure.MascotaRepository;
+import com.dbp.pet_journey.usuario.domain.Usuario;
+import com.dbp.pet_journey.usuario.domain.UsuarioService;
+import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,18 +23,24 @@ import java.util.List;
 @Service
 public class MascotaService {
     @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private MascotaRepository mascotaRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(MascotaService.class);
 
 
-    public void saveMascota(MascotaRequestDto mascotaRequestDto) {
+    public Mascota saveMascota(MascotaRequestDto mascotaRequestDto, Usuario usuario) {
         Mascota mascota = new Mascota();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(mascotaRequestDto, mascota);
+        mascota.setUsuario(usuario);
         mascotaRepository.save(mascota);
-        MascotaResponseDto mascotaResponseDto = modelMapper.map(mascota, MascotaResponseDto.class);
-        ResponseEntity.ok(mascotaResponseDto);
+        return mascota;
     }
 
     public MascotaResponseDto getMascota(Long id) {
