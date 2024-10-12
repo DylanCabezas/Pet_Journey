@@ -15,20 +15,19 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
+    public void loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         Usuario usuario = new Usuario();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(usuarioRequestDto, usuario);
         usuarioRepository.save(usuario);
         UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
-        return ResponseEntity.ok(usuarioResponseDto);
+        ResponseEntity.ok(usuarioResponseDto);
     }
 
     public UsuarioResponseDto getUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         ModelMapper modelMapper = new ModelMapper();
-        UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
-        return usuarioResponseDto;
+        return modelMapper.map(usuario, UsuarioResponseDto.class);
     }
 
     public void deleteUsuario(Long id) {

@@ -17,15 +17,15 @@ public class Mascota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String dogName;
+    private String Name;
 
-    private String dogBreed;
+    private String Breed;
 
-    private Double dogWeight;
+    private Double Weight;
 
-    private String dogCaracteristics;
+    private String Caracteristics;
 
-    private Integer dogAge;
+    private Integer Age;
 
     @ManyToOne
     private Usuario usuario;

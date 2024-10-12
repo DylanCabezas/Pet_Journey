@@ -17,15 +17,9 @@ public class Hospedaje {
 
     private String name;
 
-<<<<<<< HEAD
     private Integer capacity;
 
     private String location;
-=======
-    private String location;
-
-    private Integer capacity;
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
 
     private String type;
 }
