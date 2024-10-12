@@ -1,6 +1,9 @@
 package com.dbp.pet_journey.usuario.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.mascota.domain.Mascota;
+import com.dbp.pet_journey.mascota.domain.MascotaService;
+import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioRequestDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioResponseDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioUpdateRequestDto;
@@ -15,6 +18,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private MascotaService mascotaService;
 
     public void loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         Usuario usuario = new Usuario();
@@ -49,6 +54,16 @@ public class UsuarioService {
 
         return ResponseEntity.ok(usuarioResponseDto);
     }
+
+    public Usuario agregarMascota(Long id, MascotaRequestDto mascotaRequestDto) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        Mascota mascota= mascotaService.saveMascota(mascotaRequestDto,usuario);
+        usuario.getMascotas().add(mascota);
+        usuarioRepository.save(usuario);
+        return usuario;
+    }
+
 
 
 
