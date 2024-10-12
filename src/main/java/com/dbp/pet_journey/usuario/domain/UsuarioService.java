@@ -3,6 +3,7 @@ package com.dbp.pet_journey.usuario.domain;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.usuario.dto.UsuarioRequestDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioResponseDto;
+import com.dbp.pet_journey.usuario.dto.UsuarioUpdateRequestDto;
 import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,22 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public void UpdateUsuario(Long id, UsuarioRequestDto usuarioRequestDto) {
 
+    public ResponseEntity<UsuarioResponseDto> updateUsuario(Long id, UsuarioUpdateRequestDto usuarioUpdateRequestDto) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.map(usuarioUpdateRequestDto, usuario);
+
+        usuarioRepository.save(usuario);
+
+        UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
+
+        return ResponseEntity.ok(usuarioResponseDto);
     }
+
+
+
 
 }

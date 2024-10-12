@@ -3,7 +3,9 @@ package com.dbp.pet_journey.mascota.domain;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaResponseDto;
+import com.dbp.pet_journey.mascota.dto.MascotaUpdateRequestDto;
 import com.dbp.pet_journey.mascota.infraestructure.MascotaRepository;
+import com.dbp.pet_journey.usuario.domain.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,21 @@ public class MascotaService {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(mascota, MascotaResponseDto.class);
     }
+
+    public ResponseEntity<MascotaResponseDto> updateMascota(Long id, MascotaUpdateRequestDto mascotaUpdateRequestDto) {
+        Mascota mascota = mascotaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
+
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.map(mascotaUpdateRequestDto, mascota);
+
+        mascotaRepository.save(mascota);
+
+        MascotaResponseDto mascotaResponseDto = modelMapper.map(mascota, MascotaResponseDto.class);
+
+        return ResponseEntity.ok(mascotaResponseDto);
+    }
+    
 
     public void deleteMascota(Long id) {
         mascotaRepository.deleteById(id);
