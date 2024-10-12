@@ -4,6 +4,7 @@ import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.cuidador.dto.CuidadorRequestDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorResponseDto;
 import com.dbp.pet_journey.cuidador.infraestructure.CuidadorRepository;
+import com.dbp.pet_journey.servicio.dto.ServicioRequestDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ public class CuidadorService {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(usuario, CuidadorResponseDto.class);
     }
+
+    public void crearServicio(Long id, ServicioRequestDto servicioRequestDto) {}
 
     public void deleteCuidador(Long id) {
         cuidadorRepository.deleteById(id);

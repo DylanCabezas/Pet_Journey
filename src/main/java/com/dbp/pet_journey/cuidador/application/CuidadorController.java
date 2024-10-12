@@ -19,14 +19,16 @@ public class CuidadorController {
         return ResponseEntity.created(null).build();
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<CuidadorResponseDto> getCuidador(@PathVariable Long id){
         return ResponseEntity.ok(cuidadorService.getCuidador(id));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id){
         cuidadorService.deleteCuidador(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

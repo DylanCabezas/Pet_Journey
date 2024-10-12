@@ -14,7 +14,7 @@ public class MascotaController {
     @Autowired
     private MascotaService mascotaService;
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<MascotaResponseDto> getMascota(@PathVariable Long id){
         return ResponseEntity.ok(mascotaService.getMascota(id));
     }
@@ -27,8 +27,8 @@ public class MascotaController {
         return mascotaService.updateMascota(id, mascotaUpdateRequestDto);
     }
 
-    @DeleteMapping("/id")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMascota(@PathVariable Long id){
         mascotaService.deleteMascota(id);
         return ResponseEntity.noContent().build();
     }
