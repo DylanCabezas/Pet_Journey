@@ -1,6 +1,5 @@
 package com.dbp.pet_journey.usuario.domain;
 
-import com.dbp.pet_journey.Exceptions.ResourceConflictException;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.mascota.domain.Mascota;
 import com.dbp.pet_journey.mascota.domain.MascotaService;
@@ -19,14 +18,14 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+  
     @Autowired
     private MascotaService mascotaService;
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
+ public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
             throw new ResourceConflictException("El nombre de usuario ya está en uso");
         }
@@ -51,6 +50,7 @@ public class UsuarioService {
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
+
 
     public ResponseEntity<UsuarioResponseDto> updateUsuario(Long id, UsuarioUpdateRequestDto usuarioUpdateRequestDto) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -84,6 +84,5 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return usuario;
     }
-
 
 }
