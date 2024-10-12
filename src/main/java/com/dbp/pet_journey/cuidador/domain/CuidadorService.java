@@ -34,7 +34,7 @@ public class CuidadorService {
         return modelMapper.map(usuario, CuidadorResponseDto.class);
     }
 
-    public void crearServicio(Long id, ServicioRequestDto servicioRequestDto) {
+    public Cuidador crearServicio(Long id, ServicioRequestDto servicioRequestDto) {
         Cuidador cuidador = cuidadorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));;
         Servicio servicio = new Servicio();
         ModelMapper modelMapper = new ModelMapper();
@@ -42,7 +42,7 @@ public class CuidadorService {
         servicioRepository.save(servicio);
         cuidador.getServicios().add(servicio);
         cuidadorRepository.save(cuidador);
-
+        return  cuidador;
     }
 
     public void deleteCuidador(Long id) {

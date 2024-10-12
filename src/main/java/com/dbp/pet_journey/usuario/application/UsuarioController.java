@@ -48,12 +48,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioActualizado);
     }
 
-<<<<<<< HEAD
     @DeleteMapping("/{usuarioId}/eliminar-mascota/{mascotaId}")
     public ResponseEntity<Usuario> eliminarMascota(@PathVariable Long usuarioId, @PathVariable Long mascotaId) {
         Usuario usuarioActualizado = usuarioService.eliminarMascota(usuarioId, mascotaId);
         return ResponseEntity.ok(usuarioActualizado);
     }
-=======
->>>>>>> 7c8c9b326f7cc343bf0b419e1bcd32c6c96e4dfc
+
 }
