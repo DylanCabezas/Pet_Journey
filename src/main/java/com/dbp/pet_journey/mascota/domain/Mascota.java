@@ -1,6 +1,5 @@
 package com.dbp.pet_journey.mascota.domain;
 
-
 import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.hospedaje.domain.Hospedaje;
 import com.dbp.pet_journey.servicio.domain.Servicio;
@@ -18,15 +17,15 @@ public class Mascota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String dogName;
 
-    private String breed;
+    private String dogBreed;
 
-    private Double weight;
+    private Double dogWeight;
 
-    private String caracteristics;
+    private String dogCaracteristics;
 
-    private Integer age;
+    private Integer dogAge;
 
     @ManyToOne
     private Usuario usuario;
