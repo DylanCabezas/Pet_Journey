@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.usuario.application;
 
+import com.dbp.pet_journey.mascota.domain.Mascota;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.usuario.domain.Usuario;
 import com.dbp.pet_journey.usuario.domain.UsuarioService;
@@ -40,7 +41,7 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
     }
-
+  
     @PutMapping("/{usuarioId}/agregar_mascota")
     public ResponseEntity<Usuario> agregarMascota(@PathVariable Long usuarioId, @RequestBody MascotaRequestDto nuevaMascota) {
         Usuario usuarioActualizado = usuarioService.agregarMascota(usuarioId, nuevaMascota);

@@ -33,7 +33,7 @@ public class MascotaService {
 
     private static final Logger logger = LoggerFactory.getLogger(MascotaService.class);
 
-
+  
     public Mascota saveMascota(MascotaRequestDto mascotaRequestDto, Usuario usuario) {
         Mascota mascota = new Mascota();
         ModelMapper modelMapper = new ModelMapper();
