@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public class UsuarioResponseDto {
     private String name;
-    private String password;
     private String email;
     private String phoneNumber;
 }

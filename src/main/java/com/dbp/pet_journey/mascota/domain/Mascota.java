@@ -1,10 +1,7 @@
 package com.dbp.pet_journey.mascota.domain;
-<<<<<<< HEAD
-import com.dbp.pet_journey.cuidadores.domain.Cuidadores;
-=======
+
 
 import com.dbp.pet_journey.cuidador.domain.Cuidador;
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
 import com.dbp.pet_journey.hospedaje.domain.Hospedaje;
 import com.dbp.pet_journey.servicio.domain.Servicio;
 import com.dbp.pet_journey.usuario.domain.Usuario;
@@ -13,29 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-<<<<<<< HEAD
-
-@Setter
-@Getter
-@Entity
-
-public class Mascota {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String name;
-
-    private Especie especie;
-
-    private Integer age;
-
-    private double wight;
-
-    private String caracteristics;
-
-    private String animalBreed;
-=======
 @Getter
 @Setter
 @Entity
@@ -44,16 +18,15 @@ public class Mascota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String dogName;
+    private String name;
 
-    private String dogBreed;
+    private String breed;
 
-    private Double dogWeight;
+    private Double weight;
 
-    private String dogCaracteristics;
+    private String caracteristics;
 
-    private Integer dogAge;
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
+    private Integer age;
 
     @ManyToOne
     private Usuario usuario;
@@ -65,12 +38,7 @@ public class Mascota {
     private Hospedaje hospedaje;
 
     @ManyToOne
-<<<<<<< HEAD
-    private Cuidadores cuidador;
-}
-=======
     private Cuidador cuidador;
 
 
 }
->>>>>>> 10f2ccd81bea4d5ace4871703483b07f43b90f14
