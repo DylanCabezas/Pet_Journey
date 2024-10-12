@@ -8,27 +8,20 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
-public class UsuarioRequestDto {
-
-    @Size(min = 2, max = 20)
-    @NotNull
-    private String name;
-
-    @Size(min = 2, max = 20)
-    @NotNull
-    private String password;
+public class UsuarioUpdateRequestDto {
 
     @Email
     @NotNull
     private String email;
 
-    @Size(min = 2, max = 20)
+    @Size(min = 9, max = 9)
     @NotNull
-    private String phoneNumber;
+    private String celular;
 
-    @Size(min = 2, max = 50)
+    @Size(min = 5, max = 100)
     @NotNull
-    private String direction;
+    private String direccion;
+
 
 }
+
