@@ -14,12 +14,6 @@ public class MascotaController {
     @Autowired
     private MascotaService mascotaService;
 
-    @PostMapping()
-    public ResponseEntity<Void> saveMascota(@RequestBody MascotaRequestDto mascotaRequestDto) {
-        mascotaService.saveMascota(mascotaRequestDto);
-        return ResponseEntity.created(null).build();
-    }
-
     @GetMapping("/id")
     public ResponseEntity<MascotaResponseDto> getMascota(@PathVariable Long id){
         return ResponseEntity.ok(mascotaService.getMascota(id));

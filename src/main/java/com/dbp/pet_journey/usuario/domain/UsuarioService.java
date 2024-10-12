@@ -1,6 +1,10 @@
 package com.dbp.pet_journey.usuario.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.mascota.domain.Mascota;
+import com.dbp.pet_journey.mascota.domain.MascotaService;
+import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
+import com.dbp.pet_journey.mascota.infraestructure.MascotaRepository;
 import com.dbp.pet_journey.usuario.dto.UsuarioRequestDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioResponseDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioUpdateRequestDto;
@@ -16,6 +20,13 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private MascotaRepository mascotaRepository;
+
+    @Autowired
+    private MascotaService mascotaService;
+
+
     public void loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         Usuario usuario = new Usuario();
         ModelMapper modelMapper = new ModelMapper();
@@ -30,6 +41,8 @@ public class UsuarioService {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(usuario, UsuarioResponseDto.class);
     }
+
+
 
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
@@ -48,6 +61,14 @@ public class UsuarioService {
         UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
 
         return ResponseEntity.ok(usuarioResponseDto);
+    }
+
+    public Usuario agregarMascota(Long usuarioId, MascotaRequestDto nuevaMascota) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        Mascota mascota = mascotaService.saveMascota(nuevaMascota,usuario);
+        usuario.getMascotas().add(mascota);
+        return usuarioRepository.save(usuario);
     }
 
 
