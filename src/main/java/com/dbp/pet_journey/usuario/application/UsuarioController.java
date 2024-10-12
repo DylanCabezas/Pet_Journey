@@ -41,17 +41,19 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
     }
-
-
+  
     @PutMapping("/{usuarioId}/agregar_mascota")
     public ResponseEntity<Usuario> agregarMascota(@PathVariable Long usuarioId, @RequestBody MascotaRequestDto nuevaMascota) {
         Usuario usuarioActualizado = usuarioService.agregarMascota(usuarioId, nuevaMascota);
         return ResponseEntity.ok(usuarioActualizado);
     }
 
+<<<<<<< HEAD
     @DeleteMapping("/{usuarioId}/eliminar-mascota/{mascotaId}")
     public ResponseEntity<Usuario> eliminarMascota(@PathVariable Long usuarioId, @PathVariable Long mascotaId) {
         Usuario usuarioActualizado = usuarioService.eliminarMascota(usuarioId, mascotaId);
         return ResponseEntity.ok(usuarioActualizado);
     }
+=======
+>>>>>>> 7c8c9b326f7cc343bf0b419e1bcd32c6c96e4dfc
 }

@@ -15,7 +15,7 @@ public class CuidadorController {
 
     @PostMapping()
     public ResponseEntity<Void> saveMascota(@RequestBody CuidadorRequestDto cuidadorRequestDto) {
-            cuidadorService.saveCuidador(cuidadorRequestDto);
+        cuidadorService.saveCuidador(cuidadorRequestDto);
         return ResponseEntity.created(null).build();
     }
 
@@ -29,6 +29,10 @@ public class CuidadorController {
         cuidadorService.deleteCuidador(id);
         return ResponseEntity.noContent().build();
     }
+<<<<<<< HEAD
 
 
 }
+=======
+}
+>>>>>>> 7c8c9b326f7cc343bf0b419e1bcd32c6c96e4dfc

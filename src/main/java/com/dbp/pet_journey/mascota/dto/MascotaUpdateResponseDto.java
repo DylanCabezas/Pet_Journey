@@ -1,13 +1,13 @@
 package com.dbp.pet_journey.mascota.dto;
 
 public class MascotaUpdateResponseDto {
-    private String Name;
+    private String name;
 
-    private String Breed;
+    private String breed;
 
-    private String Caracteristics;
+    private String caracteristics;
 
-    private Integer Weight;
+    private Integer weight;
 
-    private Integer Age;
+    private Integer age;
 }
