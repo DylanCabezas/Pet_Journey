@@ -2,6 +2,9 @@ package com.dbp.pet_journey.usuario.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceConflictException;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.cuidador.domain.Cuidador;
+import com.dbp.pet_journey.mail.domain.EmailService;
+import com.dbp.pet_journey.mail.model.Mail;
 import com.dbp.pet_journey.mascota.domain.Mascota;
 import com.dbp.pet_journey.mascota.domain.MascotaService;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
@@ -24,6 +27,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
+
 @Service
 public class UsuarioService {
 
@@ -37,7 +42,8 @@ public class UsuarioService {
     private MascotaRepository mascotaRepository;
     @Autowired
     private ServicioRepository servicioRepository;
-
+    @Autowired
+    private EmailService emailService;
 
    public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
@@ -118,11 +124,40 @@ public class UsuarioService {
         return  mascotaService.updateMascota(mascotaId,mascotaUpdateRequestDto);
     }
 
-    public ServicioResponseDto setMascotaServicio(Long mascotaId, Long servicioId) {
+    public ServicioResponseDto setMascotaServicio(Long mascotaId, Long servicioId, Long usuarioId) {
         Servicio servicio = servicioRepository.findById(servicioId).orElseThrow(() -> new ResourceNotFoundException("Servicio no encontrado"));
         Mascota mascota = mascotaRepository.findById(mascotaId).orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         servicio.getMascotas().add(mascota);
+        Cuidador cuidador = mascota.getCuidador();
         mascota.setCuidador(servicio.getCuidador());
+
+        Map<String, Object> props = Map.of(
+                "nombreUsuario", usuario.getName(),
+                "nombreMascota", mascota.getName(),
+                "nombreCuidador", cuidador.getName(),
+                "emailCuidador", cuidador.getEmail(),
+                "telefonoCuidador", cuidador.getPhoneNumber(),
+                "experienciaCuidador", cuidador.getExperience()
+        );
+
+        // Crear el correo usando la plantilla Thymeleaf
+        Mail mail = Mail.builder()
+                .to(usuario.getEmail())           // Correo del usuario
+                .from(cuidador.getEmail())   // Cambia esto por tu correo o configuración
+                .subject("Detalles del Cuidador Asignado")
+                .htmlTemplate(new Mail.HtmlTemplate("cuidador-info", props)) // La plantilla Thymeleaf
+                .build();
+
+        // Enviar el correo
+        try {
+            emailService.sendEmail(mail);
+        } catch (Exception e) {
+            // Manejo de errores al enviar el correo
+            e.printStackTrace();
+        }
+
         servicio.setEstado(EstadoServicio.PENDIENTE);
         servicioRepository.save(servicio);
         ServicioResponseDto servicioResponseDto = new ServicioResponseDto();
