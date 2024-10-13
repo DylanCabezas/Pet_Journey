@@ -7,12 +7,9 @@ import com.dbp.pet_journey.mascota.dto.MascotaUpdateRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateResponseDto;
 import com.dbp.pet_journey.mascota.infraestructure.MascotaRepository;
 import com.dbp.pet_journey.usuario.domain.Usuario;
-import com.dbp.pet_journey.usuario.domain.UsuarioService;
-import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,18 +19,15 @@ import java.util.List;
 
 @Service
 public class MascotaService {
-    @Autowired
-    private UsuarioService usuarioService;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private MascotaRepository mascotaRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(MascotaService.class);
 
-  
+    public MascotaService(MascotaRepository mascotaRepository) {
+        this.mascotaRepository = mascotaRepository;
+    }
+
     public Mascota saveMascota(MascotaRequestDto mascotaRequestDto, Usuario usuario) {
         Mascota mascota = new Mascota();
         ModelMapper modelMapper = new ModelMapper();
@@ -63,11 +57,9 @@ public class MascotaService {
         return ResponseEntity.ok(mascotaUpdateResponseDto);
     }
 
-
     public void deleteMascota(Long id) {
         mascotaRepository.deleteById(id);
     }
-
 
     @Scheduled(cron = "0 0 0 * * *")
     public void verificarBirthdayMascotas() {
@@ -84,8 +76,6 @@ public class MascotaService {
             logger.info(mensajeBirthday);
         }
 
-
         mascotaRepository.saveAll(mascotasQueCumplenBirthday);
     }
-
 }

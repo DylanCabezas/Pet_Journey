@@ -1,7 +1,6 @@
 package com.dbp.pet_journey.mascota.application;
 
 import com.dbp.pet_journey.mascota.domain.MascotaService;
-import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaResponseDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateResponseDto;

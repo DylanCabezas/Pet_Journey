@@ -25,11 +25,11 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     @Autowired
-    private com.dbp.pet_journey.auth.jwt.JwtAuthenticationFilter jwtAuthenticationFilter;
+    private com.dbp.pet_journey.config.JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     private AuthorizationUtils authorizationUtils;
@@ -54,7 +54,7 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setUserDetailsService(authorizationUtils);
+        authProvider.setUserDetailsService(authorizationUtils); // Set the userDetailsService here
         return authProvider;
     }
 
