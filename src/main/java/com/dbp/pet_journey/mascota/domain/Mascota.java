@@ -26,7 +26,7 @@ public class Mascota {
 
     private String caracteristics;
 
-    private LocalDate fecha_nacimiento;
+    private LocalDate fechaNacimiento;
 
     private Integer age;
 
