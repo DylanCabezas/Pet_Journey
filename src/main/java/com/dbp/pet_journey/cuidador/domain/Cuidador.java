@@ -3,6 +3,7 @@ package com.dbp.pet_journey.cuidador.domain;
 import com.dbp.pet_journey.comunicacion.domain.Comunicacion;
 import com.dbp.pet_journey.hospedaje.domain.Hospedaje;
 import com.dbp.pet_journey.mascota.domain.Mascota;
+import com.dbp.pet_journey.servicio.domain.Servicio;
 import com.dbp.pet_journey.usuario.domain.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,4 +36,7 @@ public class Cuidador {
 
     @OneToMany
     private List<Mascota> mascotas;
+
+    @OneToMany
+    private List<Servicio> servicios;
 }

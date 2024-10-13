@@ -39,9 +39,6 @@ public class Mascota {
     private List<Servicio> servicios;
 
     @ManyToOne
-    private Hospedaje hospedaje;
-
-    @ManyToOne
     private Cuidador cuidador;
 
 
