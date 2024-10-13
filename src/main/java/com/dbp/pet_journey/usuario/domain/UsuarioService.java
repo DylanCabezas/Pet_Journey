@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.usuario.domain;
 
+import com.dbp.pet_journey.Exceptions.ResourceConflictException;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.mascota.domain.Mascota;
 import com.dbp.pet_journey.mascota.domain.MascotaService;
@@ -18,20 +19,20 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-  
+
     @Autowired
     private MascotaService mascotaService;
 
     @Autowired
     private ModelMapper modelMapper;
 
- public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
+    public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
-            throw new ResourceConflictException("El nombre de usuario ya está en uso");
+            throw new ResourceConflictException("El nombre de usuario ya esta en uso");
         }
 
         if (usuarioRepository.existsByEmail(usuarioRequestDto.getEmail())) {
-            throw new ResourceConflictException("El correo electrónico ya está registrado");
+            throw new ResourceConflictException("El correo electronico ya esta registrado");
         }
 
         Usuario usuario = new Usuario();
@@ -63,7 +64,7 @@ public class UsuarioService {
 
         if (!usuario.getEmail().equals(usuarioUpdateRequestDto.getEmail()) &&
                 usuarioRepository.existsByEmail(usuarioUpdateRequestDto.getEmail())) {
-            throw new ResourceConflictException("El correo electrónico ya está registrado");
+            throw new ResourceConflictException("El correo electronico ya esta registrado");
         }
 
         ModelMapper modelMapper = new ModelMapper();
