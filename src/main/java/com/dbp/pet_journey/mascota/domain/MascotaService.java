@@ -22,11 +22,6 @@ import java.util.List;
 
 @Service
 public class MascotaService {
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private MascotaRepository mascotaRepository;
