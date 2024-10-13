@@ -22,6 +22,7 @@ import com.dbp.pet_journey.usuario.dto.UsuarioUpdateRequestDto;
 import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,9 @@ public class UsuarioService {
     private ServicioRepository servicioRepository;
     @Autowired
     private EmailService emailService;
+
+    @Value("${MAIL_USERNAME}")
+    String MAIL_USERNAME;
 
    public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
         if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
@@ -124,11 +128,10 @@ public class UsuarioService {
         return  mascotaService.updateMascota(mascotaId,mascotaUpdateRequestDto);
     }
 
-    public ServicioResponseDto setMascotaServicio(Long mascotaId, Long servicioId, Long usuarioId) {
+    public ServicioResponseDto setMascotaServicio(Long mascotaId, Long servicioId) {
         Servicio servicio = servicioRepository.findById(servicioId).orElseThrow(() -> new ResourceNotFoundException("Servicio no encontrado"));
         Mascota mascota = mascotaRepository.findById(mascotaId).orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        Usuario usuario = mascota.getUsuario();
         servicio.getMascotas().add(mascota);
         Cuidador cuidador = mascota.getCuidador();
         mascota.setCuidador(servicio.getCuidador());
@@ -141,11 +144,10 @@ public class UsuarioService {
                 "telefonoCuidador", cuidador.getPhoneNumber(),
                 "experienciaCuidador", cuidador.getExperience()
         );
-
         // Crear el correo usando la plantilla Thymeleaf
         Mail mail = Mail.builder()
                 .to(usuario.getEmail())           // Correo del usuario
-                .from(cuidador.getEmail())   // Cambia esto por tu correo o configuración
+                .from(MAIL_USERNAME)   // Cambia esto por tu correo o configuración
                 .subject("Detalles del Cuidador Asignado")
                 .htmlTemplate(new Mail.HtmlTemplate("cuidador-info", props)) // La plantilla Thymeleaf
                 .build();

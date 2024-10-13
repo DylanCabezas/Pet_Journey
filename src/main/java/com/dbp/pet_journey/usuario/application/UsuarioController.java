@@ -65,7 +65,7 @@ public class UsuarioController {
          return usuarioService.actualizarMascota(mascotaId,mascotaUpdateRequestDto);
     }
 
-    @PutMapping("/AsignarServicio/{mascotaId}/{serivioId")
+    @PutMapping("/AsignarServicio/{mascotaId}/{serivioId}")
     public ResponseEntity<ServicioResponseDto> setMascotaServicio(@PathVariable Long mascotaId, @RequestBody Long servicioId) {
         ServicioResponseDto servicio = usuarioService.setMascotaServicio(mascotaId,servicioId);
         return ResponseEntity.ok(servicio);
