@@ -67,10 +67,8 @@ public class MascotaService {
     @Scheduled(cron = "0 0 0 * * *")
     public void verificarBirthdayMascotas() {
         LocalDate fechaActual = LocalDate.now();
-        int diaActual = fechaActual.getDayOfMonth();
-        int mesActual = fechaActual.getMonthValue();
 
-        List<Mascota> mascotasQueCumplenBirthday = mascotaRepository.findMascotasByNuevaEdad(diaActual, mesActual);
+        List<Mascota> mascotasQueCumplenBirthday = mascotaRepository.findMascotasByFechaNacimiento(fechaActual);
 
         for (Mascota mascota : mascotasQueCumplenBirthday) {
             mascota.setAge(mascota.getAge() + 1);

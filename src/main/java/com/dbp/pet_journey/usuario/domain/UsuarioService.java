@@ -46,7 +46,7 @@ public class UsuarioService {
     @Autowired
     private EmailService emailService;
 
-    @Value("${MAIL_USERNAME}")
+    @Value("${MAIL_USERNAME:yitzhak.namihas@utec.edu.pe}")
     String MAIL_USERNAME;
 
    public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
