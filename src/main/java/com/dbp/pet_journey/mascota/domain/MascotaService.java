@@ -7,8 +7,6 @@ import com.dbp.pet_journey.mascota.dto.MascotaUpdateRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaUpdateResponseDto;
 import com.dbp.pet_journey.mascota.infraestructure.MascotaRepository;
 import com.dbp.pet_journey.usuario.domain.Usuario;
-import com.dbp.pet_journey.usuario.domain.UsuarioService;
-import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,6 @@ public class MascotaService {
 
     private static final Logger logger = LoggerFactory.getLogger(MascotaService.class);
 
-  
     public Mascota saveMascota(MascotaRequestDto mascotaRequestDto, Usuario usuario) {
         Mascota mascota = new Mascota();
         ModelMapper modelMapper = new ModelMapper();
@@ -39,7 +36,7 @@ public class MascotaService {
     }
 
     public MascotaResponseDto getMascota(Long id) {
-        Mascota mascota = mascotaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        Mascota mascota = mascotaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(mascota, MascotaResponseDto.class);
     }
@@ -58,11 +55,9 @@ public class MascotaService {
         return ResponseEntity.ok(mascotaUpdateResponseDto);
     }
 
-
     public void deleteMascota(Long id) {
         mascotaRepository.deleteById(id);
     }
-
 
     @Scheduled(cron = "0 0 0 * * *")
     public void verificarBirthdayMascotas() {
@@ -70,7 +65,11 @@ public class MascotaService {
         int diaActual = fechaActual.getDayOfMonth();
         int mesActual = fechaActual.getMonthValue();
 
-        List<Mascota> mascotasQueCumplenBirthday = mascotaRepository.findMascotasByNuevaEdad(diaActual, mesActual);
+        List<Mascota> todasLasMascotas = mascotaRepository.findAll();
+        List<Mascota> mascotasQueCumplenBirthday = todasLasMascotas.stream()
+                .filter(mascota -> mascota.getFecha_nacimiento().getDayOfMonth() == diaActual &&
+                        mascota.getFecha_nacimiento().getMonthValue() == mesActual)
+                .toList();
 
         for (Mascota mascota : mascotasQueCumplenBirthday) {
             mascota.setAge(mascota.getAge() + 1);
@@ -78,7 +77,6 @@ public class MascotaService {
             String mensajeBirthday = "Happy Birthday, " + mascota.getName() + "!";
             logger.info(mensajeBirthday);
         }
-
 
         mascotaRepository.saveAll(mascotasQueCumplenBirthday);
     }
