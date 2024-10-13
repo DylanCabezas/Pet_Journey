@@ -18,6 +18,7 @@ public class ServicioService {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(servicioRequestDto, servicio);
         servicio.setCuidador(cuidador);
+        servicio.setHospedaje(cuidador.getHospedaje());
         servicioRepository.save(servicio);
         return servicio;
     }

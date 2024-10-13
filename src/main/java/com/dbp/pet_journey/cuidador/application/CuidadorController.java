@@ -4,6 +4,7 @@ import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.cuidador.domain.CuidadorService;
 import com.dbp.pet_journey.cuidador.dto.CuidadorRequestDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorResponseDto;
+import com.dbp.pet_journey.hospedaje.dto.HospedajeRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.servicio.dto.ServicioRequestDto;
 import com.dbp.pet_journey.usuario.domain.Usuario;
@@ -34,9 +35,21 @@ public class CuidadorController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{usuarioId}/agregar_servicio")
-    public ResponseEntity<Cuidador> agregarMascota(@PathVariable Long usuarioId, @RequestBody ServicioRequestDto servicioRequestDto) {
-        Cuidador CuidadorActualizado = cuidadorService.crearServicio(usuarioId, servicioRequestDto);
+    @PutMapping("/{cuidadorId}/agregar_servicio")
+    public ResponseEntity<Cuidador> agregarMascota(@PathVariable Long cuidadorId, @RequestBody ServicioRequestDto servicioRequestDto) {
+        Cuidador CuidadorActualizado = cuidadorService.crearServicio(cuidadorId, servicioRequestDto);
+        return ResponseEntity.ok(CuidadorActualizado);
+    }
+
+    @DeleteMapping("/{cuidadorId}/eliminar_servicio/{servicioId}")
+    public ResponseEntity<Cuidador>  deleteServicio(@PathVariable Long cuidadorId, @PathVariable Long servicioId) {
+        Cuidador cuidadorActualizado = cuidadorService.deleteServicio(cuidadorId, servicioId);
+        return ResponseEntity.ok(cuidadorActualizado);
+    }
+
+    @PutMapping("/{cuidadorId}/agregar_hospedaje")
+    public ResponseEntity<Cuidador> crearhopedaje(@PathVariable Long cuidadorId, @RequestBody HospedajeRequestDto hospedajeRequestDto) {
+        Cuidador CuidadorActualizado = cuidadorService.crearHospedaje(cuidadorId, hospedajeRequestDto);
         return ResponseEntity.ok(CuidadorActualizado);
     }
 

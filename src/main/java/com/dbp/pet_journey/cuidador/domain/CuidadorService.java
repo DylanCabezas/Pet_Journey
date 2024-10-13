@@ -42,8 +42,8 @@ public class CuidadorService {
         return modelMapper.map(cuidador, CuidadorResponseDto.class);
     }
 
-    public Cuidador crearServicio(Long id, ServicioRequestDto servicioRequestDto) {
-        Cuidador cuidador = cuidadorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
+    public Cuidador crearServicio(Long cuidadorId, ServicioRequestDto servicioRequestDto) {
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId).orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
         Servicio servicio = servicioService.postServicio(servicioRequestDto, cuidador);
         cuidador.getServicios().add(servicio);
         cuidadorRepository.save(cuidador);
@@ -56,6 +56,16 @@ public class CuidadorService {
         cuidador.setHospedaje(hospedaje);
         cuidadorRepository.save(cuidador);
         return  cuidador;
+    }
+
+    public Cuidador deleteServicio(Long cuidadorId, Long servicioId){
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
+        Servicio servicio = servicioRepository.findById(servicioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Servicio no encontrado"));
+        cuidador.getServicios().remove(servicio);
+        servicioRepository.delete(servicio);
+        return cuidadorRepository.save(cuidador);
     }
 
     public void deleteCuidador(Long id) {
