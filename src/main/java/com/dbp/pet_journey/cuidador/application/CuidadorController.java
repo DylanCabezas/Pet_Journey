@@ -29,7 +29,7 @@ public class CuidadorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id){
+    public ResponseEntity<Void> deleteCuidador(@PathVariable Long id){
         cuidadorService.deleteCuidador(id);
         return ResponseEntity.noContent().build();
     }
@@ -39,5 +39,7 @@ public class CuidadorController {
         Cuidador CuidadorActualizado = cuidadorService.crearServicio(usuarioId, servicioRequestDto);
         return ResponseEntity.ok(CuidadorActualizado);
     }
+
+
 
 }
