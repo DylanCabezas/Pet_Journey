@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.usuario.domain;
 
+import com.dbp.pet_journey.Exceptions.ResourceConflictException;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.mascota.domain.Mascota;
 import com.dbp.pet_journey.mascota.domain.MascotaService;
@@ -31,19 +32,29 @@ public class UsuarioService {
     @Autowired
     private MascotaService mascotaService;
     @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
     private MascotaRepository mascotaRepository;
     @Autowired
     private ServicioRepository servicioRepository;
 
-    public void loginUsuario(UsuarioRequestDto usuarioRequestDto) {
+
+   public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
+        if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
+            throw new ResourceConflictException("El nombre de usuario ya esta en uso");
+        }
+
+        if (usuarioRepository.existsByEmail(usuarioRequestDto.getEmail())) {
+            throw new ResourceConflictException("El correo electronico ya esta registrado");
+        }
+
         Usuario usuario = new Usuario();
-        ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(usuarioRequestDto, usuario);
         usuarioRepository.save(usuario);
         UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
-        ResponseEntity.ok(usuarioResponseDto);
+        return ResponseEntity.ok(usuarioResponseDto);
     }
-
+  
     public UsuarioResponseDto getUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         ModelMapper modelMapper = new ModelMapper();
@@ -58,6 +69,16 @@ public class UsuarioService {
     public ResponseEntity<UsuarioResponseDto> updateUsuario(Long id, UsuarioUpdateRequestDto usuarioUpdateRequestDto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        if (!usuario.getUsername().equals(usuarioUpdateRequestDto.getUsername()) &&
+                usuarioRepository.existsByUsername(usuarioUpdateRequestDto.getUsername())) {
+            throw new ResourceConflictException("El nombre de usuario ya está en uso");
+        }
+
+        if (!usuario.getEmail().equals(usuarioUpdateRequestDto.getEmail()) &&
+                usuarioRepository.existsByEmail(usuarioUpdateRequestDto.getEmail())) {
+            throw new ResourceConflictException("El correo electronico ya esta registrado");
+        }
 
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(usuarioUpdateRequestDto, usuario);
