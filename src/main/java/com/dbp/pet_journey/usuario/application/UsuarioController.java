@@ -25,8 +25,8 @@ public class UsuarioController {
 
     @PostMapping()
     public ResponseEntity<Void> loginUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
-       usuarioService.loginUsuario(usuarioRequestDto);
-       return ResponseEntity.created(null).build();
+        usuarioService.loginUsuario(usuarioRequestDto);
+        return ResponseEntity.created(null).build();
     }
 
     @GetMapping("/{id}")
@@ -47,7 +47,7 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
     }
-  
+
     @PutMapping("/{usuarioId}/agregar_mascota")
     public ResponseEntity<Usuario> agregarMascota(@PathVariable Long usuarioId, @RequestBody @Valid MascotaRequestDto nuevaMascota) {
         Usuario usuarioActualizado = usuarioService.agregarMascota(usuarioId, nuevaMascota);
@@ -62,7 +62,7 @@ public class UsuarioController {
 
     @PatchMapping("/actualizar_mascota/{mascotaId}")
     public ResponseEntity<MascotaUpdateResponseDto> actualizarMascota(@PathVariable Long mascotaId, @RequestBody @Valid MascotaUpdateRequestDto mascotaUpdateRequestDto) {
-         return usuarioService.actualizarMascota(mascotaId,mascotaUpdateRequestDto);
+        return usuarioService.actualizarMascota(mascotaId,mascotaUpdateRequestDto);
     }
 
     @PutMapping("/AsignarServicio/{mascotaId}/{serivioId")
@@ -70,7 +70,5 @@ public class UsuarioController {
         ServicioResponseDto servicio = usuarioService.setMascotaServicio(mascotaId,servicioId);
         return ResponseEntity.ok(servicio);
     }
-
-
 
 }
