@@ -1,11 +1,12 @@
 package com.dbp.pet_journey.hospedaje.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.dbp.pet_journey.cuidador.domain.Cuidador;
+import com.dbp.pet_journey.servicio.domain.Servicio;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -22,4 +23,10 @@ public class Hospedaje {
     private String location;
 
     private String type;
+
+    @OneToMany
+    private List<Servicio> servicios;
+
+    @OneToOne
+    private Cuidador cuidador;
 }

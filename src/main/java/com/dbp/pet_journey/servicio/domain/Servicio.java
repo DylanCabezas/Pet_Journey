@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.servicio.domain;
 
+import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.mascota.domain.Mascota;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,5 +26,11 @@ public class Servicio {
 
     @ManyToMany
     private List<Mascota> mascotas;
+
+    @ManyToOne
+    private Cuidador cuidador;
+
+    @ManyToOne
+    private Servicio servicio;
 
 }

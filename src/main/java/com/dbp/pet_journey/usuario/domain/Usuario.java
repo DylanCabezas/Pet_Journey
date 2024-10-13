@@ -33,9 +33,6 @@ public class Usuario {
     @OneToMany
     private List<Recomendacion> recomendaciones;
 
-    @ManyToMany
-    private List<Comunicacion> comunicaciones;
-
     @OneToMany
     private List<Mascota> mascotas;
 
