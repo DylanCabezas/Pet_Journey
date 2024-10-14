@@ -11,9 +11,9 @@ PetJourney es un servicio diseñado para ayudar a personas con mascotas que tien
 | **🐾 Miembros del Equipo 🐾**  |
 |--------------------------------|
 | Dylan Andres Cabezas Ramirez   |
-|          |
-|         |
-|  Tana Sofía Suárez Arce  |
+| Yitzhak Abraham Namihas Millan |
+| Carla Viviana Molina Álvarez   |
+| Tana Sofía Suárez Arce         |
 
 
 
