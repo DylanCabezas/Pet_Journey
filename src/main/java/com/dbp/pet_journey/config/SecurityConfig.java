@@ -4,10 +4,6 @@ import com.dbp.pet_journey.auth.utils.AuthorizationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -29,7 +25,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     @Autowired
-    private com.dbp.pet_journey.auth.jwt.JwtAuthenticationFilter jwtAuthenticationFilter;
+    private com.dbp.pet_journey.config.JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     private AuthorizationUtils authorizationUtils;
@@ -55,28 +51,13 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setUserDetailsService(authorizationUtils);
+        authProvider.setUserDetailsService(authorizationUtils); // Carga de usuarios personalizada
         return authProvider;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    static RoleHierarchy roleHierarchy() {
-        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
-        hierarchy.setHierarchy("ROLE_ADMIN > ROLE_CUIDADOR \n ROLE_CUIDADOR > ROLE_CLIENTE");
-        return hierarchy;
-    }
-
-    @Bean
-    static MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
-        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
-        expressionHandler.setRoleHierarchy(roleHierarchy);
-        expressionHandler.setDefaultRolePrefix("ROLE_");
-        return expressionHandler;
     }
 
     @Bean

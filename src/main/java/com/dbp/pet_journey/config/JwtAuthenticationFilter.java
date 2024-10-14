@@ -1,4 +1,4 @@
-package com.dbp.pet_journey.auth.jwt;
+package com.dbp.pet_journey.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -50,7 +50,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = authorizationUtils.loadUserByUsername(userEmail);
 
-            // Verifica la validez del token JWT
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

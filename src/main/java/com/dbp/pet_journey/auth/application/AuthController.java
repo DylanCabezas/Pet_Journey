@@ -15,14 +15,11 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    // Endpoint para login
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
-        System.out.println("Usuario logueado");
         return ResponseEntity.ok(authService.login(req));
     }
 
-    // Endpoint para registro de nuevos usuarios
     @PostMapping("/register")
     public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterReq req) {
         return ResponseEntity.ok(authService.register(req));
