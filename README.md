@@ -2,6 +2,24 @@
 
 PetJourney es un servicio diseñado para ayudar a personas con mascotas que tienen un estilo de vida ocupado, ya sea por trabajo o viajes frecuentes. Este servicio ofrece hoteles, guarderías y paseos personalizados para que las mascotas reciban el mejor cuidado posible mientras sus dueños están ocupados.
 
+## 🌟 Curso: *CS 2031 - Desarrollo Basado en Plataforma* 🌟
+
+---
+
+## 👥 **Integrantes del Equipo** 👥
+
+| **🐾 Miembros del Equipo 🐾**  |
+|--------------------------------|
+| Dylan Andres Cabezas Ramirez   |
+|          |
+|         |
+|        |
+
+
+
+---
+
+
 ## 📑 Índice
 
 1. [Introducción](#introducción)
