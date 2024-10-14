@@ -33,15 +33,12 @@ public class AuthService {
     private AuthorizationUtils authorizationUtils;
 
     public JwtAuthResponse login(LoginReq loginReq) {
-        // Autenticamos al usuario con el AuthenticationManager
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword())
         );
 
         UserDetails userDetails = authorizationUtils.loadUserByUsername(loginReq.getUsername());
-
         String token = jwtService.generateToken(userDetails);
-
         return new JwtAuthResponse(token);
     }
 
@@ -58,7 +55,6 @@ public class AuthService {
         userAccountRepository.save(user);
 
         UserDetails userDetails = authorizationUtils.loadUserByUsername(registerReq.getUsername());
-
         String token = jwtService.generateToken(userDetails);
 
         return new JwtAuthResponse(token);
