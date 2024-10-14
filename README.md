@@ -57,9 +57,85 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 
 ### Entidades Principales:
 - **Usuario**: Representa a los dueños de mascotas y cuidadores.
+  
+  UsuarioService
+  
+| **Método**                            | **Descripción**                                                                                                                       |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| `loginUsuario(UsuarioRequestDto)`     | Registra un nuevo usuario. Verifica si el nombre de usuario y el correo electrónico ya están en uso. Si no, guarda el usuario en la base de datos. Devuelve la respuesta del usuario registrado. |
+| `getUsuario(Long id)`                 | Obtiene los detalles de un usuario específico a partir de su ID. Lanza una excepción si el usuario no se encuentra.                   |
+| `deleteUsuario(Long id)`              | Elimina un usuario de la base de datos utilizando su ID.                                                                              |
+| `updateUsuario(Long id, UsuarioUpdateRequestDto)` | Actualiza la información de un usuario existente. Verifica que el nuevo nombre de usuario y correo electrónico no estén en uso. Devuelve la respuesta del usuario actualizado. |
+| `agregarMascota(Long id, MascotaRequestDto)` | Agrega una nueva mascota al usuario. Verifica la existencia del usuario y guarda la mascota, luego la asocia al usuario. Devuelve la lista actualizada de mascotas del usuario. |
+| `eliminarMascota(Long usuarioId, Long mascotaId)` | Elimina una mascota asociada a un usuario. Verifica la existencia del usuario y la mascota antes de eliminarlas de la base de datos. |
+| `actualizarMascota(Long mascotaId, MascotaUpdateRequestDto)` | Actualiza los detalles de una mascota específica utilizando su ID.                                                                     |
+| `setMascotaServicio(Long mascotaId, Long servicioId)` | Asigna un servicio a una mascota. Envía un correo electrónico al usuario con los detalles del cuidador asignado y cambia el estado del servicio a PENDIENTE. Devuelve la respuesta del servicio actualizado. |
+
+  UsuarioController
+  
+| **Método**                                             | **Descripción**                                                                                                           |
+|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `loginUsuario(UsuarioRequestDto)`                     | Registra un nuevo usuario. Recibe los datos del usuario en el cuerpo de la solicitud y llama al servicio para guardar el usuario. Devuelve un estado HTTP 201 (Creado). |
+| `getUsuario(Long id)`                                 | Obtiene los detalles de un usuario específico a partir de su ID. Devuelve la información del usuario en la respuesta.     |
+| `updateUsuario(Long id, UsuarioUpdateRequestDto)`    | Actualiza la información de un usuario existente. Recibe el ID del usuario y los nuevos datos en la solicitud, luego llama al servicio para realizar la actualización. Devuelve la información del usuario actualizado. |
+| `deleteUsuario(Long id)`                              | Elimina un usuario de la base de datos utilizando su ID. Devuelve un estado HTTP 204 (Sin contenido) tras la eliminación.  |
+| `agregarMascota(Long usuarioId, MascotaRequestDto)`  | Agrega una nueva mascota al usuario especificado. Recibe los datos de la mascota y devuelve la lista actualizada de mascotas del usuario. |
+| `eliminarMascota(Long usuarioId, Long mascotaId)`    | Elimina una mascota asociada a un usuario. Recibe el ID del usuario y de la mascota y devuelve el usuario actualizado tras la eliminación. |
+| `actualizarMascota(Long mascotaId, MascotaUpdateRequestDto)` | Actualiza los detalles de una mascota específica. Recibe el ID de la mascota y los nuevos datos, y devuelve la información actualizada. |
+  
 - **Mascota**: Información de las mascotas (nombre, raza, edad).
+
+  MascotaService
+  
+| **Método**                                           | **Descripción**                                                                                                         |
+|-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `saveMascota(MascotaRequestDto, Usuario)`          | Crea una nueva mascota a partir de los datos proporcionados en `MascotaRequestDto`. Asocia la mascota al usuario y la guarda en la base de datos. Devuelve la mascota guardada. |
+| `getMascota(Long id)`                               | Recupera una mascota de la base de datos utilizando su ID. Si no se encuentra, lanza una excepción. Devuelve los detalles de la mascota en un objeto `MascotaResponseDto`. |
+| `updateMascota(Long id, MascotaUpdateRequestDto)`  | Actualiza los datos de una mascota existente. Busca la mascota por su ID, actualiza sus atributos con los datos de `MascotaUpdateRequestDto`, y guarda los cambios. Devuelve los detalles actualizados en un objeto `MascotaUpdateResponseDto`. |
+| `deleteMascota(Long id)`                            | Elimina una mascota de la base de datos utilizando su ID.                                                            |
+| `verificarBirthdayMascotas()`                        | Método programado que se ejecuta a diario. Verifica si alguna mascota cumple años en la fecha actual, incrementa su edad y registra un mensaje de cumpleaños en los logs. Luego, guarda los cambios en la base de datos. |
+
+  MascotaController
+  
+| **Método**                                            | **Descripción**                                                                                                          |
+|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `getMascota(Long id)`                                | Recupera los detalles de una mascota utilizando su ID. Llama al servicio `MascotaService` para obtener la información y devuelve un objeto `MascotaResponseDto`. |
+| `updateMascota(Long id, MascotaUpdateRequestDto)`   | Actualiza los detalles de una mascota existente. Recibe un ID y un objeto `MascotaUpdateRequestDto`, luego llama al servicio `MascotaService` para realizar la actualización. |
+| `deleteMascota(Long id)`                             | Elimina una mascota de la base de datos utilizando su ID. Llama al servicio `MascotaService` para realizar la eliminación y devuelve una respuesta sin contenido. |
+
 - **Servicio**: Servicios que pueden ser solicitados (hotel, paseo).
+
+  ServicioService
+  
+| **Método**                                           | **Descripción**                                                                                                       |
+|-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| `postServicio(ServicioRequestDto servicioRequestDto, Cuidador cuidador)` | Crea un nuevo servicio para el cuidado de mascotas. Recibe un objeto `ServicioRequestDto` con los detalles del servicio y un objeto `Cuidador`. Se mapea la información y se guarda en la base de datos utilizando `ServicioRepository`. |
+
 - **Cuidador**: Encargado de los servicios de cuidado y paseo.
+
+  CuidadorService
+  
+| **Método**                                           | **Descripción**                                                                                                      |
+|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| `saveCuidador(CuidadorRequestDto cuidadorRequestDto)` | Crea y guarda un nuevo cuidador en la base de datos utilizando la información del `CuidadorRequestDto`.               |
+| `getCuidador(Long id)`                              | Recupera un cuidador existente a partir de su ID. Si no se encuentra, lanza una excepción.                           |
+| `crearServicio(Long cuidadorId, ServicioRequestDto servicioRequestDto)` | Crea un nuevo servicio asociado a un cuidador, guardando tanto el servicio como la referencia en el cuidador.         |
+| `crearHospedaje(Long cuidadorId, HospedajeRequestDto hospedajeRequestDto)` | Crea un hospedaje para el cuidador y lo asocia al objeto `Cuidador`.                                               |
+| `deleteServicio(Long cuidadorId, Long servicioId)` | Elimina un servicio asociado a un cuidador, actualizando la lista de servicios del cuidador en el proceso.            |
+| `agregarRecomendacion(Long cuidadorId, RecomendacionDto recomendacionDto)` | Agrega una recomendación al cuidador, asociando la recomendación a su registro y guardándola.                         |
+| `deleteCuidador(Long id)`                           | Elimina un cuidador de la base de datos utilizando su ID.                                                            |
+
+  CuidadorController
+  
+| **Método**                                                                    | **Descripción**                                                                                                    |
+|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `saveMascota(CuidadorRequestDto cuidadorRequestDto)`                       | Crea un nuevo cuidador utilizando la información proporcionada en `CuidadorRequestDto` y lo guarda en la base de datos. |
+| `getCuidador(Long id)`                                                      | Recupera un cuidador existente a partir de su ID. Si no se encuentra, lanza una excepción.                         |
+| `deleteCuidador(Long id)`                                                   | Elimina un cuidador de la base de datos utilizando su ID.                                                          |
+| `agregarMascota(Long cuidadorId, ServicioRequestDto servicioRequestDto)`   | Agrega un nuevo servicio al cuidador especificado, actualizando la lista de servicios del cuidador.                 |
+| `deleteServicio(Long cuidadorId, Long servicioId)`                         | Elimina un servicio asociado al cuidador especificado, actualizando la lista de servicios en el proceso.            |
+| `crearhopedaje(Long cuidadorId, HospedajeRequestDto hospedajeRequestDto)`  | Crea un hospedaje para el cuidador especificado y lo asocia a su perfil.                                         |
+| `agregarRecomendacion(Long cuidadorId, RecomendacionDto recomendacionDto)` | Agrega una recomendación al cuidador, asociando la recomendación a su registro y guardándola.                       |
 
 ## 🧪 Testing y Manejo de Errores
 
