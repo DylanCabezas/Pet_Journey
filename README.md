@@ -13,7 +13,7 @@ PetJourney es un servicio diseñado para ayudar a personas con mascotas que tien
 | Dylan Andres Cabezas Ramirez   |
 |          |
 |         |
-|        |
+|  Tana Sofía Suárez Arce  |
 
 
 
