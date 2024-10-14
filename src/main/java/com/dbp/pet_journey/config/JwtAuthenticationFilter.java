@@ -1,4 +1,4 @@
-package com.dbp.pet_journey.auth.jwt;
+package com.dbp.pet_journey.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

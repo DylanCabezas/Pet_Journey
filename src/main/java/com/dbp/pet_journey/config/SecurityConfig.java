@@ -25,7 +25,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     @Autowired
-    private com.dbp.pet_journey.auth.jwt.JwtAuthenticationFilter jwtAuthenticationFilter;
+    private com.dbp.pet_journey.config.JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     private AuthorizationUtils authorizationUtils;
