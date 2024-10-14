@@ -167,7 +167,7 @@ Se han implementado pruebas unitarias para verificar la correcta funcionalidad d
 
 ## ⏲️ Eventos y Asincronía
 
-Cuando se asigna un servicio, el usuario recibe un correo detallado con la información del cuidador, incluyendo su nombre y contacto. Además, se especifican los detalles del servicio, como el tipo, fecha, hora y costo, junto con notas importantes sobre la mascota. Este correo garantiza que el dueño esté informado y tenga la tranquilidad de saber quién está a cargo del cuidado de su mascota, ofreciendo transparencia y facilitando la comunicación directa con el cuidador.
+Cuando se asigna un servicio, el usuario recibe un correo detallado con la información del cuidador, incluyendo su nombre y contacto. Además, se especifican los detalles del servicio, como el tipo, fecha, hora y costo, junto con notas importantes sobre la mascota. Este correo garantiza que el dueño esté informado y tenga la tranquilidad de saber quién está a cargo del cuidado de su mascota, ofreciendo transparencia y facilitando la comunicación directa con el cuidador. Para poder generar este evento el se crea al ususario, su mascota, luego se crea al cuidador, este crea un servicio y un hospedaje, y al momento de que el usuario asigne un servicio a su mascota le llegara el correo a este.
 
 ## 🎯 Conclusión
 
