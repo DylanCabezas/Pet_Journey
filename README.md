@@ -59,6 +59,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 - **Usuario**: Representa a los dueños de mascotas y cuidadores.
   
   UsuarioService
+  
 | **Método**                            | **Descripción**                                                                                                                       |
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
 | `loginUsuario(UsuarioRequestDto)`     | Registra un nuevo usuario. Verifica si el nombre de usuario y el correo electrónico ya están en uso. Si no, guarda el usuario en la base de datos. Devuelve la respuesta del usuario registrado. |
@@ -71,6 +72,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 | `setMascotaServicio(Long mascotaId, Long servicioId)` | Asigna un servicio a una mascota. Envía un correo electrónico al usuario con los detalles del cuidador asignado y cambia el estado del servicio a PENDIENTE. Devuelve la respuesta del servicio actualizado. |
 
   UsuarioController
+  
 | **Método**                                             | **Descripción**                                                                                                           |
 |-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | `loginUsuario(UsuarioRequestDto)`                     | Registra un nuevo usuario. Recibe los datos del usuario en el cuerpo de la solicitud y llama al servicio para guardar el usuario. Devuelve un estado HTTP 201 (Creado). |
@@ -84,6 +86,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 - **Mascota**: Información de las mascotas (nombre, raza, edad).
 
   MascotaService
+  
 | **Método**                                           | **Descripción**                                                                                                         |
 |-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | `saveMascota(MascotaRequestDto, Usuario)`          | Crea una nueva mascota a partir de los datos proporcionados en `MascotaRequestDto`. Asocia la mascota al usuario y la guarda en la base de datos. Devuelve la mascota guardada. |
@@ -93,6 +96,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 | `verificarBirthdayMascotas()`                        | Método programado que se ejecuta a diario. Verifica si alguna mascota cumple años en la fecha actual, incrementa su edad y registra un mensaje de cumpleaños en los logs. Luego, guarda los cambios en la base de datos. |
 
   MascotaController
+  
 | **Método**                                            | **Descripción**                                                                                                          |
 |------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | `getMascota(Long id)`                                | Recupera los detalles de una mascota utilizando su ID. Llama al servicio `MascotaService` para obtener la información y devuelve un objeto `MascotaResponseDto`. |
@@ -102,6 +106,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 - **Servicio**: Servicios que pueden ser solicitados (hotel, paseo).
 
   ServicioService
+  
 | **Método**                                           | **Descripción**                                                                                                       |
 |-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
 | `postServicio(ServicioRequestDto servicioRequestDto, Cuidador cuidador)` | Crea un nuevo servicio para el cuidado de mascotas. Recibe un objeto `ServicioRequestDto` con los detalles del servicio y un objeto `Cuidador`. Se mapea la información y se guarda en la base de datos utilizando `ServicioRepository`. |
@@ -109,6 +114,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 - **Cuidador**: Encargado de los servicios de cuidado y paseo.
 
   CuidadorService
+  
 | **Método**                                           | **Descripción**                                                                                                      |
 |-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
 | `saveCuidador(CuidadorRequestDto cuidadorRequestDto)` | Crea y guarda un nuevo cuidador en la base de datos utilizando la información del `CuidadorRequestDto`.               |
@@ -120,6 +126,7 @@ PetJourney facilita que los dueños de mascotas encuentren servicios confiables 
 | `deleteCuidador(Long id)`                           | Elimina un cuidador de la base de datos utilizando su ID.                                                            |
 
   CuidadorController
+  
 | **Método**                                                                    | **Descripción**                                                                                                    |
 |------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | `saveMascota(CuidadorRequestDto cuidadorRequestDto)`                       | Crea un nuevo cuidador utilizando la información proporcionada en `CuidadorRequestDto` y lo guarda en la base de datos. |
