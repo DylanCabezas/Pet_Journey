@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.recomendacion.domain;
 
+import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.usuario.domain.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,5 +23,5 @@ public class Recomendacion {
     private String location;
 
     @ManyToOne
-    private Usuario usuario;
+    private Cuidador cuidador;
 }

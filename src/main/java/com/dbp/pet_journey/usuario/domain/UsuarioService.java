@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -100,13 +101,13 @@ public class UsuarioService {
         return ResponseEntity.ok(usuarioResponseDto);
     }
 
-    public Usuario agregarMascota(Long id, MascotaRequestDto mascotaRequestDto) {
+    public List<Mascota> agregarMascota(Long id, MascotaRequestDto mascotaRequestDto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         Mascota mascota= mascotaService.saveMascota(mascotaRequestDto,usuario);
         usuario.getMascotas().add(mascota);
         usuarioRepository.save(usuario);
-        return usuario;
+        return usuario.getMascotas();
     }
 
 

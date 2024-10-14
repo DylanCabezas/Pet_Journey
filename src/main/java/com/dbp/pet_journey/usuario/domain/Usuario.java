@@ -31,9 +31,6 @@ public class Usuario {
     private String direction;
 
     @OneToMany
-    private List<Recomendacion> recomendaciones;
-
-    @OneToMany
     private List<Mascota> mascotas;
 
 }

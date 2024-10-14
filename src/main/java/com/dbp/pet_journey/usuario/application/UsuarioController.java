@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -49,10 +51,11 @@ public class UsuarioController {
     }
 
     @PutMapping("/{usuarioId}/agregar_mascota")
-    public ResponseEntity<Usuario> agregarMascota(@PathVariable Long usuarioId, @RequestBody @Valid MascotaRequestDto nuevaMascota) {
-        Usuario usuarioActualizado = usuarioService.agregarMascota(usuarioId, nuevaMascota);
-        return ResponseEntity.ok(usuarioActualizado);
+    public ResponseEntity<List<Mascota>> agregarMascota(@PathVariable Long usuarioId, @RequestBody @Valid MascotaRequestDto nuevaMascota) {
+        List<Mascota> mascotas  = usuarioService.agregarMascota(usuarioId, nuevaMascota);
+        return ResponseEntity.ok(mascotas);
     }
+
 
     @DeleteMapping("/{usuarioId}/eliminar_mascota/{mascotaId}")
     public ResponseEntity<Usuario> eliminarMascota(@PathVariable Long usuarioId, @PathVariable @Valid Long mascotaId) {

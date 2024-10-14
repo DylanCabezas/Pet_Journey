@@ -7,6 +7,9 @@ import com.dbp.pet_journey.cuidador.infraestructure.CuidadorRepository;
 import com.dbp.pet_journey.hospedaje.domain.Hospedaje;
 import com.dbp.pet_journey.hospedaje.domain.HospedajeService;
 import com.dbp.pet_journey.hospedaje.dto.HospedajeRequestDto;
+import com.dbp.pet_journey.recomendacion.domain.Recomendacion;
+import com.dbp.pet_journey.recomendacion.domain.RecomendacionService;
+import com.dbp.pet_journey.recomendacion.dto.RecomendacionDto;
 import com.dbp.pet_journey.servicio.domain.Servicio;
 import com.dbp.pet_journey.servicio.domain.ServicioService;
 import com.dbp.pet_journey.servicio.dto.ServicioRequestDto;
@@ -26,6 +29,8 @@ public class CuidadorService {
     private ServicioService servicioService;
     @Autowired
     private HospedajeService hospedajeService;
+    @Autowired
+    private RecomendacionService recomendacionService;
 
     public void saveCuidador(CuidadorRequestDto cuidadorRequestDto) {
         Cuidador usuario = new Cuidador();
@@ -66,6 +71,14 @@ public class CuidadorService {
         cuidador.getServicios().remove(servicio);
         servicioRepository.delete(servicio);
         return cuidadorRepository.save(cuidador);
+    }
+
+    public Cuidador agregarRecomendacion(Long cuidadorId, RecomendacionDto recomendacionDto){
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId).orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
+        Recomendacion recomendacion = recomendacionService.crearRecomendacion(recomendacionDto,cuidador);
+        cuidador.getRecomendaciones().add(recomendacion);
+        cuidadorRepository.save(cuidador);
+        return cuidador;
     }
 
     public void deleteCuidador(Long id) {

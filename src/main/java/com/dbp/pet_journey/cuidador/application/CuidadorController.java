@@ -6,8 +6,10 @@ import com.dbp.pet_journey.cuidador.dto.CuidadorRequestDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorResponseDto;
 import com.dbp.pet_journey.hospedaje.dto.HospedajeRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
+import com.dbp.pet_journey.recomendacion.dto.RecomendacionDto;
 import com.dbp.pet_journey.servicio.dto.ServicioRequestDto;
 import com.dbp.pet_journey.usuario.domain.Usuario;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class CuidadorController {
     }
 
     @PutMapping("/{cuidadorId}/agregar_servicio")
-    public ResponseEntity<Cuidador> agregarMascota(@PathVariable Long cuidadorId, @RequestBody ServicioRequestDto servicioRequestDto) {
+    public ResponseEntity<Cuidador> agregarMascota(@PathVariable Long cuidadorId, @RequestBody @Valid ServicioRequestDto servicioRequestDto) {
         Cuidador CuidadorActualizado = cuidadorService.crearServicio(cuidadorId, servicioRequestDto);
         return ResponseEntity.ok(CuidadorActualizado);
     }
@@ -48,9 +50,15 @@ public class CuidadorController {
     }
 
     @PutMapping("/{cuidadorId}/agregar_hospedaje")
-    public ResponseEntity<Cuidador> crearhopedaje(@PathVariable Long cuidadorId, @RequestBody HospedajeRequestDto hospedajeRequestDto) {
+    public ResponseEntity<Cuidador> crearhopedaje(@PathVariable Long cuidadorId, @RequestBody @Valid HospedajeRequestDto hospedajeRequestDto) {
         Cuidador CuidadorActualizado = cuidadorService.crearHospedaje(cuidadorId, hospedajeRequestDto);
         return ResponseEntity.ok(CuidadorActualizado);
+    }
+
+    @PutMapping("{cuidadorId}/agregar_recomendacion")
+    public ResponseEntity<Cuidador>  agregarRecomendacion(@PathVariable Long cuidadorId, @RequestBody @Valid RecomendacionDto recomendacionDto) {
+        Cuidador cuidadorActualizado = cuidadorService.agregarRecomendacion(cuidadorId,recomendacionDto);
+        return ResponseEntity.ok(cuidadorActualizado);
     }
 
 
