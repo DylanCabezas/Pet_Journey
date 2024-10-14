@@ -19,7 +19,9 @@ PetJourney es un servicio diseñado para ayudar a personas con mascotas que tien
 
 ### 🌍 Contexto
 
-En la actualidad, muchas personas tienen dificultades para balancear su vida laboral y personal con el cuidado adecuado de sus mascotas. Los horarios de trabajo largos o los viajes frecuentes afectan el bienestar emocional y físico de las mascotas.
+PetJourney es un servicio tecnológico diseñado para ayudar a aquellas personas con mascotas que necesitan asistencia en el cuidado de sus animales cuando no pueden estar presentes. La propuesta se enfoca en crear una plataforma digital donde los dueños de mascotas puedan encontrar personas capacitadas para brindar diversos servicios de cuidado. A través de una API, la plataforma permitirá a los usuarios acceder a una red de cuidadores que ofrecen servicios como paseos, hospedaje en casa, visitas de control y actividades recreativas.
+La API permitirá conectar a los usuarios con los cuidadores de mascotas de forma rápida y eficiente.
+
 
 ### 🎯 Objetivos del Proyecto
 
@@ -32,7 +34,7 @@ En la actualidad, muchas personas tienen dificultades para balancear su vida lab
 
 ### ⚠️ Descripción del Problema
 
-Muchas personas no tienen los medios o el tiempo necesario para organizar salidas recreativas con sus mascotas, lo que limita las oportunidades de esparcimiento y socialización de los animales.
+PetJourney responde a la problemática que enfrentan muchos dueños de mascotas que, debido a compromisos laborales, viajes o agendas ocupadas, no siempre tienen el tiempo necesario para cuidar adecuadamente a sus animales. Esta falta de tiempo puede generar preocupación por el bienestar de las mascotas, quienes necesitan atención constante. PetJourney ofrece una solución tecnológica que facilita la conexión entre los dueños de mascotas y cuidadores, permitiendo que los usuarios gestionen de manera eficiente el cuidado de sus mascotas a través de una plataforma digital, asegurando que siempre puedan encontrar apoyo confiable cuando lo necesiten.
 
 ### 💡 Justificación
 
