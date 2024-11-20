@@ -1,6 +1,7 @@
 package com.dbp.pet_journey.auth.application;
 
 import com.dbp.pet_journey.auth.domain.AuthService;
+import com.dbp.pet_journey.auth.domain.UserAccount;
 import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
 import com.dbp.pet_journey.auth.dto.LoginReq;
 import com.dbp.pet_journey.auth.dto.RegisterReq;
@@ -16,12 +17,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
-        return ResponseEntity.ok(authService.login(req));
+    public ResponseEntity<JwtAuthResponse> register(@RequestBody UserAccount req) {
+        return ResponseEntity.ok(authService.register(req));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterReq req) {
-        return ResponseEntity.ok(authService.register(req));
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
+        return ResponseEntity.ok(authService.login(req));
     }
 }

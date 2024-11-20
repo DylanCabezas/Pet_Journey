@@ -2,61 +2,47 @@ package com.dbp.pet_journey.auth.domain;
 
 import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
 import com.dbp.pet_journey.auth.dto.LoginReq;
-import com.dbp.pet_journey.auth.dto.RegisterReq;
-import com.dbp.pet_journey.auth.exceptions.UserAlreadyExistException;
-import com.dbp.pet_journey.auth.infraestructure.UserAccountRepository;
-import com.dbp.pet_journey.auth.utils.AuthorizationUtils;
 import com.dbp.pet_journey.config.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.dbp.pet_journey.auth.infraestructure.UserAccountRepository;
 @Service
 public class AuthService {
+    @Autowired
+    UserAccountRepository userRepository;
 
     @Autowired
-    private UserAccountRepository userAccountRepository;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    JwtService jwtService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
+    public JwtAuthResponse register(UserAccount user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-    @Autowired
-    private AuthorizationUtils authorizationUtils;
+        userRepository.save(user);
+        var jwt = jwtService.generateToken(user);
 
-    public JwtAuthResponse login(LoginReq loginReq) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword())
-        );
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwt);
 
-        UserDetails userDetails = authorizationUtils.loadUserByUsername(loginReq.getUsername());
-        String token = jwtService.generateToken(userDetails);
-        return new JwtAuthResponse(token);
+        return response;
     }
 
-    public JwtAuthResponse register(RegisterReq registerReq) {
-        if (userAccountRepository.existsByUsername(registerReq.getUsername())) {
-            throw new UserAlreadyExistException("El nombre de usuario ya existe");
-        }
+    public JwtAuthResponse login(LoginReq request) throws IllegalArgumentException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        var user = userRepository.findByEmail(request.getEmail());
+        var jwt = jwtService.generateToken(user);
 
-        UserAccount user = new UserAccount();
-        user.setUsername(registerReq.getUsername());
-        user.setPassword(passwordEncoder.encode(registerReq.getPassword()));
-        user.setRoles(registerReq.getRoles());
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwt);
 
-        userAccountRepository.save(user);
-
-        UserDetails userDetails = authorizationUtils.loadUserByUsername(registerReq.getUsername());
-        String token = jwtService.generateToken(userDetails);
-
-        return new JwtAuthResponse(token);
+        return response;
     }
 }

@@ -1,54 +1,23 @@
 package com.dbp.pet_journey.auth.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.dbp.pet_journey.auth.infraestructure.UserAccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-public class UserDetailsServiceImpl implements UserDetails {
-
-    private final UserAccount userAccount;
-
-    public UserDetailsServiceImpl(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
+@Component
+public class UserDetailsServiceImpl implements UserDetailsService {
+    @Autowired
+    UserAccountRepository repository;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userAccount.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .collect(Collectors.toList());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByEmail(username);
     }
 
-    @Override
-    public String getPassword() {
-        return userAccount.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return userAccount.getUsername();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public UserDetailsService userDetailsService() {
+        return this;
     }
 }
