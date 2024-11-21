@@ -16,12 +16,12 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("/register")
     public ResponseEntity<JwtAuthResponse> register(@RequestBody UserAccount req) {
         return ResponseEntity.ok(authService.register(req));
     }
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
         return ResponseEntity.ok(authService.login(req));
     }

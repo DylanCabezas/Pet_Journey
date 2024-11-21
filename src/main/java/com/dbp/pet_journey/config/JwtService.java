@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${my.awesome.secret}")
+    @Value("${jwt.secret}")
     private String jwtSigningKey;
 
     public String extractUserName(String token) {
@@ -55,8 +55,15 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            // Log the exception and the token for debugging
+            System.out.println("Failed to parse token: " + token);
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     private Key getSigningKey() {

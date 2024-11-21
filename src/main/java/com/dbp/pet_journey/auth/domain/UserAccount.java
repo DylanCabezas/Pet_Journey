@@ -22,7 +22,6 @@ import java.util.List;
 @Setter
 public class UserAccount implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -37,13 +36,6 @@ public class UserAccount implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private Boolean expired;
-
-    private Boolean locked;
-
-    private Boolean credentialsExpired;
-
-    private Boolean enable;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,26 +44,31 @@ public class UserAccount implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return email; // Devuelve el email como nombre de usuario
+    }
+
+    @Override
+    public String getPassword() {
+        return password; // Devuelve la contraseña almacenada
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return !expired;
+        return UserDetails.super.isAccountNonExpired();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return UserDetails.super.isAccountNonLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return !credentialsExpired;
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
     public boolean isEnabled() {
-        return enable;
+        return UserDetails.super.isEnabled();
     }
 }

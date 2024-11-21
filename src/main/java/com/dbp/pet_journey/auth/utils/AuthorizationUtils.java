@@ -10,16 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorizationUtils implements UserDetailsService {
+public class AuthorizationUtils {
 
     @Autowired
     private UserAccountRepository userAccountRepository;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAccount userAccount = userAccountRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        return new UserDetailsServiceImpl(userAccount);
-    }
 }
