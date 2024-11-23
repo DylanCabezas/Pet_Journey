@@ -2,6 +2,8 @@ package com.dbp.pet_journey.usuario.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceConflictException;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
+import com.dbp.pet_journey.config.JwtService;
 import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.mail.domain.EmailService;
 import com.dbp.pet_journey.mail.model.Mail;
@@ -46,11 +48,14 @@ public class UsuarioService {
     private ServicioRepository servicioRepository;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    JwtService jwtService;
 
     @Value("${MAIL_USERNAME:yitzhak.namihas@utec.edu.pe}")
     String MAIL_USERNAME;
 
-   public ResponseEntity<UsuarioResponseDto> loginUsuario(UsuarioRequestDto usuarioRequestDto) {
+
+   public ResponseEntity<UsuarioResponseDto> RegisterUsuario(UsuarioRequestDto usuarioRequestDto) {
         if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
             throw new ResourceConflictException("El nombre de usuario ya esta en uso");
         }
@@ -62,8 +67,14 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         modelMapper.map(usuarioRequestDto, usuario);
         usuarioRepository.save(usuario);
+        var jwt = jwtService.generateToken(usuario);
         UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
         return ResponseEntity.ok(usuarioResponseDto);
+
+
+       JwtAuthResponse response = new JwtAuthResponse();
+       response.setToken(jwt);
+
     }
   
     public UsuarioResponseDto getUsuario(Long id) {

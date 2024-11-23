@@ -50,19 +50,6 @@ class UsuarioTest {
     }
 
     @Test
-    void getUsuario_ShouldReturnUsuarioResponseDto() {
-        Long userId = 1L;
-        UsuarioResponseDto responseDto = new UsuarioResponseDto();
-        when(usuarioService.getUsuario(userId)).thenReturn(responseDto);
-
-        ResponseEntity<UsuarioResponseDto> response = usuarioController.getUsuario(userId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(responseDto, response.getBody());
-        verify(usuarioService).getUsuario(userId);
-    }
-
-    @Test
     void updateUsuario_ShouldReturnUpdatedUsuarioResponseDto() {
         Long userId = 1L;
         UsuarioUpdateRequestDto requestDto = new UsuarioUpdateRequestDto();

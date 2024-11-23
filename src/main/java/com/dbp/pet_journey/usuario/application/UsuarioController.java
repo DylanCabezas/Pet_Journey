@@ -21,20 +21,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth/usuario")
+@RequestMapping("/usuario")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+
     @PostMapping()
-    public ResponseEntity<Void> loginUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
-        usuarioService.loginUsuario(usuarioRequestDto);
+    public ResponseEntity<Void> registerUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
+        usuarioService.RegisterUsuario(usuarioRequestDto);
         return ResponseEntity.created(null).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDto> getUsuario(@PathVariable Long id){
-        return ResponseEntity.ok(usuarioService.getUsuario(id));
+    public UsuarioResponseDto getUsuario(@PathVariable Long id){
+        return usuarioService.getUsuario(id);
     }
 
     @PatchMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.dbp.pet_journey.config;
 
 import com.dbp.pet_journey.auth.domain.UserDetailsServiceImpl;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(antMatcher("/users/**"), antMatcher("/auth/**")).permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(antMatcher("/users/**"), antMatcher("/auth/**"),antMatcher("/usuario/**")).permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -66,7 +67,7 @@ public class SecurityConfig {
     @Bean
     static RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
-        hierarchy.setHierarchy("ADMIN > USER");
+        hierarchy.setHierarchy("ADMIN > CUIDADOR > CLIENTE");
 
         return hierarchy;
     }
@@ -89,7 +90,7 @@ public class SecurityConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
+            public void addCorsMappings( CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS");
             }

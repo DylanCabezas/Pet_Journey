@@ -22,6 +22,7 @@ import java.util.List;
 @Setter
 public class UserAccount implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
