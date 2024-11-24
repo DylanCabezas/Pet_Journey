@@ -1,7 +1,10 @@
 package com.dbp.pet_journey.cuidador.application;
 
+import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
+import com.dbp.pet_journey.auth.dto.LoginReq;
 import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.cuidador.domain.CuidadorService;
+import com.dbp.pet_journey.cuidador.dto.CuidadorLoginDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorRequestDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorResponseDto;
 import com.dbp.pet_journey.hospedaje.dto.HospedajeRequestDto;
@@ -20,10 +23,14 @@ public class CuidadorController {
     @Autowired
     private CuidadorService cuidadorService;
 
-    @PostMapping()
-    public ResponseEntity<Void> saveMascota(@RequestBody CuidadorRequestDto cuidadorRequestDto) {
-        cuidadorService.saveCuidador(cuidadorRequestDto);
-        return ResponseEntity.created(null).build();
+    @PostMapping("/register")
+    public ResponseEntity<JwtAuthResponse> register(@RequestBody CuidadorRequestDto cuidadorRequestDto) {
+        return ResponseEntity.ok(cuidadorService.register(cuidadorRequestDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody CuidadorLoginDto req) {
+        return ResponseEntity.ok(cuidadorService.login(req));
     }
 
     @GetMapping("/{id}")

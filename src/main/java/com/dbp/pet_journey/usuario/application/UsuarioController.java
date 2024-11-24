@@ -1,5 +1,7 @@
 package com.dbp.pet_journey.usuario.application;
 
+import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
+import com.dbp.pet_journey.auth.dto.LoginReq;
 import com.dbp.pet_journey.mascota.domain.Mascota;
 import com.dbp.pet_journey.mascota.dto.MascotaRequestDto;
 import com.dbp.pet_journey.mascota.dto.MascotaResponseDto;
@@ -27,10 +29,13 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
 
-    @PostMapping()
-    public ResponseEntity<Void> registerUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
-        usuarioService.RegisterUsuario(usuarioRequestDto);
-        return ResponseEntity.created(null).build();
+    @PostMapping("/register")
+    public ResponseEntity<JwtAuthResponse> registerUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
+        return ResponseEntity.ok(usuarioService.register(usuarioRequestDto));
+    }
+    @PostMapping("/login")
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
+        return ResponseEntity.ok(usuarioService.login(req));
     }
 
     @GetMapping("/{id}")
