@@ -15,12 +15,16 @@ import com.dbp.pet_journey.hospedaje.dto.HospedajeRequestDto;
 import com.dbp.pet_journey.recomendacion.domain.Recomendacion;
 import com.dbp.pet_journey.recomendacion.domain.RecomendacionService;
 import com.dbp.pet_journey.recomendacion.dto.RecomendacionDto;
+import com.dbp.pet_journey.recomendacion.infraestructure.RecomendacionRepository;
 import com.dbp.pet_journey.servicio.domain.Servicio;
 import com.dbp.pet_journey.servicio.domain.ServicioService;
 import com.dbp.pet_journey.servicio.dto.ServicioRequestDto;
 import com.dbp.pet_journey.servicio.infraestructure.ServicioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +45,8 @@ public class CuidadorService {
     private RecomendacionService recomendacionService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    RecomendacionRepository recomendacionRepository;
 
     @Autowired
     JwtService jwtService;
@@ -73,6 +79,14 @@ public class CuidadorService {
         return response;
     }
 
+    public Page<Servicio> getServiciosPaginados(Long cuidadorId, int page, int size) {
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
+
+        Pageable pageable = PageRequest.of(page, size);
+        return servicioRepository.findByCuidador(cuidador, pageable);
+    }
+
     public CuidadorResponseDto getCuidador(Long id) {
         Cuidador cuidador = cuidadorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
         ModelMapper modelMapper = new ModelMapper();
@@ -87,12 +101,13 @@ public class CuidadorService {
         return  cuidador;
     }
 
-    public Cuidador crearHospedaje(Long cuidadorId, HospedajeRequestDto hospedajeRequestDto) {
-        Cuidador cuidador = cuidadorRepository.findById(cuidadorId).orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
+    public Hospedaje crearHospedaje(Long cuidadorId, HospedajeRequestDto hospedajeRequestDto) {
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
         Hospedaje hospedaje = hospedajeService.crearHopedaje(hospedajeRequestDto, cuidadorId);
         cuidador.setHospedaje(hospedaje);
         cuidadorRepository.save(cuidador);
-        return  cuidador;
+        return hospedaje;
     }
 
     public Cuidador deleteServicio(Long cuidadorId, Long servicioId){
@@ -111,6 +126,13 @@ public class CuidadorService {
         cuidador.getRecomendaciones().add(recomendacion);
         cuidadorRepository.save(cuidador);
         return cuidador;
+    }
+
+    public Page<Recomendacion> getRecomendacionesPaginadas(Long cuidadorId, int page, int size) {
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cuidador no encontrado"));
+        Pageable pageable = PageRequest.of(page, size);
+        return recomendacionRepository.findByCuidador(cuidador, pageable);
     }
 
     public void deleteCuidador(Long id) {
