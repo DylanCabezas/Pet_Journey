@@ -25,8 +25,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class CuidadorControllerTest {
@@ -132,21 +134,32 @@ class CuidadorControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedResponse, response.getBody());
+        // Add more specific assertions to compare the content of the objects
+        verify(cuidadorService).crearHospedaje(cuidadorId, requestDto);
+        verify(modelMapper).map(hospedaje, HospedajeResponseDto.class);
     }
 
     @Test
     void testAgregarRecomendacion() {
         Long cuidadorId = 1L;
         RecomendacionDto recomendacionDto = new RecomendacionDto();
-        Page<Recomendacion> recomendacionPage = new PageImpl<>(Arrays.asList(new Recomendacion()));
-        Page<RecomendacionDto> expectedPage = new PageImpl<>(Arrays.asList(new RecomendacionDto()));
+        Recomendacion recomendacion = new Recomendacion();
+        Page<Recomendacion> recomendacionPage = new PageImpl<>(List.of(recomendacion));
+        Page<RecomendacionDto> expectedPage = new PageImpl<>(List.of(new RecomendacionDto()));
+
+        when(cuidadorService.agregarRecomendacion(cuidadorId, recomendacionDto)).thenReturn(recomendacion.getCuidador());
         when(cuidadorService.getRecomendacionesPaginadas(cuidadorId, 0, 10)).thenReturn(recomendacionPage);
         when(modelMapper.map(any(Recomendacion.class), eq(RecomendacionDto.class))).thenReturn(new RecomendacionDto());
 
         ResponseEntity<Page<RecomendacionDto>> response = cuidadorController.agregarRecomendacion(cuidadorId, recomendacionDto, 0, 10);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody(), "Response body should not be null");
+        assertNotNull(response.getBody().getContent(), "Response body content should not be null");
         assertEquals(expectedPage.getContent().size(), response.getBody().getContent().size());
+
         verify(cuidadorService).agregarRecomendacion(cuidadorId, recomendacionDto);
+        verify(cuidadorService).getRecomendacionesPaginadas(cuidadorId, 0, 10);
+        verify(modelMapper).map(any(Recomendacion.class), eq(RecomendacionDto.class));
     }
 }

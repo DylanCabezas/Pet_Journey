@@ -107,7 +107,8 @@ public class UsuarioService {
     public UsuarioResponseDto getUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(usuario, UsuarioResponseDto.class);
+        UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
+        return usuarioResponseDto;
     }
 
     public void deleteUsuario(Long id) {

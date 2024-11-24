@@ -86,5 +86,13 @@ public class UsuarioController {
         ServicioResponseDto servicio = usuarioService.setMascotaServicio(mascotaId,servicioId);
         return ResponseEntity.ok(servicio);
     }
+    @DeleteMapping("/{usuarioId}/eliminar_mascota/{mascotaId}")
+    public ResponseEntity<Page<Mascota>> eliminarMascota(
+            @PathVariable Long usuarioId,
+            @PathVariable Long mascotaId,
+            @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        Page<Mascota> mascotasActualizadas = usuarioService.eliminarMascota(usuarioId, mascotaId, pageable);
+        return ResponseEntity.ok(mascotasActualizadas);
+    }
 
 }

@@ -20,14 +20,6 @@ public class MascotaController {
         return ResponseEntity.ok(mascotaService.getMascota(id));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<MascotaUpdateResponseDto> updateMascota(
-            @PathVariable Long id,
-            @RequestBody MascotaUpdateRequestDto mascotaUpdateRequestDto) {
-
-        return mascotaService.updateMascota(id, mascotaUpdateRequestDto);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMascota(@PathVariable Long id){
         mascotaService.deleteMascota(id);

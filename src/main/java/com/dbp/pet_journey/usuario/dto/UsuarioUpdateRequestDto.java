@@ -28,7 +28,7 @@ public class UsuarioUpdateRequestDto {
 
     @Size(min = 9, max = 9)
     @NotNull
-    private String celular;
+    private String phoneNumber;
 
     @Size(min = 5, max = 100)
     @NotNull
