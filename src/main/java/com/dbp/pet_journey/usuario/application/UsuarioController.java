@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
@@ -58,21 +61,24 @@ public class UsuarioController {
     }
 
     @PutMapping("/{usuarioId}/agregar_mascota")
-    public ResponseEntity<List<Mascota>> agregarMascota(@PathVariable Long usuarioId, @RequestBody @Valid MascotaRequestDto nuevaMascota) {
-        List<Mascota> mascotas  = usuarioService.agregarMascota(usuarioId, nuevaMascota);
-        return ResponseEntity.ok(mascotas);
+    public ResponseEntity<Page<Mascota>> agregarMascota(
+            @PathVariable Long usuarioId,
+            @RequestBody @Valid MascotaRequestDto nuevaMascota,
+            @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        Page<Mascota> mascotasPaginadas = usuarioService.agregarMascota(usuarioId, nuevaMascota, pageable);
+        return ResponseEntity.ok(mascotasPaginadas);
     }
 
-
-    @DeleteMapping("/{usuarioId}/eliminar_mascota/{mascotaId}")
-    public ResponseEntity<Usuario> eliminarMascota(@PathVariable Long usuarioId, @PathVariable @Valid Long mascotaId) {
-        Usuario usuarioActualizado = usuarioService.eliminarMascota(usuarioId, mascotaId);
-        return ResponseEntity.ok(usuarioActualizado);
-    }
 
     @PatchMapping("/actualizar_mascota/{mascotaId}")
-    public ResponseEntity<MascotaUpdateResponseDto> actualizarMascota(@PathVariable Long mascotaId, @RequestBody @Valid MascotaUpdateRequestDto mascotaUpdateRequestDto) {
-        return usuarioService.actualizarMascota(mascotaId,mascotaUpdateRequestDto);
+    public ResponseEntity<Page<MascotaResponseDto>> actualizarMascota(
+            @PathVariable Long mascotaId,
+            @RequestBody @Valid MascotaUpdateRequestDto mascotaUpdateRequestDto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<MascotaResponseDto> mascotasPaginadas = usuarioService.actualizarMascota(mascotaId, mascotaUpdateRequestDto, page, size);
+        return ResponseEntity.ok(mascotasPaginadas);
     }
 
     @PutMapping("/AsignarServicio/{mascotaId}/{serivioId}")

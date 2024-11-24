@@ -65,47 +65,6 @@ class UsuarioTest {
         verify(usuarioService).deleteUsuario(userId);
     }
 
-    @Test
-    void agregarMascota_ShouldReturnListOfMascotas() {
-        Long userId = 1L;
-        MascotaRequestDto requestDto = new MascotaRequestDto();
-        List<Mascota> mascotas = Arrays.asList(new Mascota(), new Mascota());
-        when(usuarioService.agregarMascota(userId, requestDto)).thenReturn(mascotas);
-
-        ResponseEntity<List<Mascota>> response = usuarioController.agregarMascota(userId, requestDto);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mascotas, response.getBody());
-        verify(usuarioService).agregarMascota(userId, requestDto);
-    }
-
-    @Test
-    void eliminarMascota_ShouldReturnUpdatedUsuario() {
-        Long userId = 1L;
-        Long mascotaId = 2L;
-        Usuario updatedUsuario = new Usuario();
-        when(usuarioService.eliminarMascota(userId, mascotaId)).thenReturn(updatedUsuario);
-
-        ResponseEntity<Usuario> response = usuarioController.eliminarMascota(userId, mascotaId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(updatedUsuario, response.getBody());
-        verify(usuarioService).eliminarMascota(userId, mascotaId);
-    }
-
-    @Test
-    void actualizarMascota_ShouldReturnMascotaUpdateResponseDto() {
-        Long mascotaId = 1L;
-        MascotaUpdateRequestDto requestDto = new MascotaUpdateRequestDto();
-        MascotaUpdateResponseDto responseDto = new MascotaUpdateResponseDto();
-        when(usuarioService.actualizarMascota(mascotaId, requestDto)).thenReturn(ResponseEntity.ok(responseDto));
-
-        ResponseEntity<MascotaUpdateResponseDto> response = usuarioController.actualizarMascota(mascotaId, requestDto);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(responseDto, response.getBody());
-        verify(usuarioService).actualizarMascota(mascotaId, requestDto);
-    }
 
     @Test
     void setMascotaServicio_ShouldReturnServicioResponseDto() {

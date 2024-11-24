@@ -1,6 +1,7 @@
 package com.dbp.pet_journey.cuidador.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.auth.domain.Role;
 import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
 import com.dbp.pet_journey.auth.dto.LoginReq;
 import com.dbp.pet_journey.config.JwtService;
@@ -50,6 +51,7 @@ public class CuidadorService {
         Cuidador cuidador = new Cuidador();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(cuidadorRequestDto, cuidador);
+        cuidador.setRole(Role.CUIDADOR);
         cuidador.setPassword(passwordEncoder.encode(cuidador.getPassword()));
         cuidadorRepository.save(cuidador);
         var jwt = jwtService.generateToken(cuidador);

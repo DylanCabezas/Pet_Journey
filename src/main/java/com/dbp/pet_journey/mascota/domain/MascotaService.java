@@ -13,6 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -44,8 +47,8 @@ public class MascotaService {
         return modelMapper.map(mascota, MascotaResponseDto.class);
     }
 
-    public ResponseEntity<MascotaUpdateResponseDto> updateMascota(Long id, MascotaUpdateRequestDto mascotaUpdateRequestDto) {
-        Mascota mascota = mascotaRepository.findById(id)
+    public Page<MascotaResponseDto> actualizarMascota(Long mascotaId, MascotaUpdateRequestDto mascotaUpdateRequestDto, int page, int size) {
+        Mascota mascota = mascotaRepository.findById(mascotaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
 
         ModelMapper modelMapper = new ModelMapper();
@@ -53,9 +56,10 @@ public class MascotaService {
 
         mascotaRepository.save(mascota);
 
-        MascotaUpdateResponseDto mascotaUpdateResponseDto = modelMapper.map(mascota, MascotaUpdateResponseDto.class);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Mascota> mascotasPage = mascotaRepository.findAll(pageable);
 
-        return ResponseEntity.ok(mascotaUpdateResponseDto);
+        return mascotasPage.map(m -> modelMapper.map(m, MascotaResponseDto.class));
     }
 
 
