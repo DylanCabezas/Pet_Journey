@@ -38,16 +38,7 @@ class UsuarioTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void loginUsuario_ShouldReturnCreatedStatus() {
-        UsuarioRequestDto requestDto = new UsuarioRequestDto();
-        when(usuarioService.loginUsuario(requestDto)).thenReturn(ResponseEntity.ok().build());
 
-        ResponseEntity<Void> response = usuarioController.loginUsuario(requestDto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        verify(usuarioService).loginUsuario(requestDto);
-    }
 
     @Test
     void updateUsuario_ShouldReturnUpdatedUsuarioResponseDto() {

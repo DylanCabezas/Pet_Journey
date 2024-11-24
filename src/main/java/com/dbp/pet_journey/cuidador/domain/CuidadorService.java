@@ -1,6 +1,10 @@
 package com.dbp.pet_journey.cuidador.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
+import com.dbp.pet_journey.auth.dto.LoginReq;
+import com.dbp.pet_journey.config.JwtService;
+import com.dbp.pet_journey.cuidador.dto.CuidadorLoginDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorRequestDto;
 import com.dbp.pet_journey.cuidador.dto.CuidadorResponseDto;
 import com.dbp.pet_journey.cuidador.infraestructure.CuidadorRepository;
@@ -17,6 +21,9 @@ import com.dbp.pet_journey.servicio.infraestructure.ServicioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,14 +38,37 @@ public class CuidadorService {
     private HospedajeService hospedajeService;
     @Autowired
     private RecomendacionService recomendacionService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-    public void saveCuidador(CuidadorRequestDto cuidadorRequestDto) {
-        Cuidador usuario = new Cuidador();
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    public JwtAuthResponse register(CuidadorRequestDto cuidadorRequestDto) {
+        Cuidador cuidador = new Cuidador();
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(cuidadorRequestDto, usuario);
-        cuidadorRepository.save(usuario);
-        CuidadorResponseDto cuidadorResponseDto = modelMapper.map(usuario, CuidadorResponseDto.class);
-        ResponseEntity.ok(cuidadorResponseDto);
+        modelMapper.map(cuidadorRequestDto, cuidador);
+        cuidador.setPassword(passwordEncoder.encode(cuidador.getPassword()));
+        cuidadorRepository.save(cuidador);
+        var jwt = jwtService.generateToken(cuidador);
+
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwt);
+
+        return response;
+    }
+
+    public JwtAuthResponse login(CuidadorLoginDto request) throws IllegalArgumentException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        var user = cuidadorRepository.findByEmail(request.getEmail());
+        var jwt = jwtService.generateToken(user);
+
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwt);
+
+        return response;
     }
 
     public CuidadorResponseDto getCuidador(Long id) {

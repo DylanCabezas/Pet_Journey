@@ -1,18 +1,18 @@
-package com.dbp.pet_journey.auth.dto;
+package com.dbp.pet_journey.cuidador.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginReq {
+public class CuidadorLoginDto {
     private String email;
     private String password;
 
-    public LoginReq() {
+    public  CuidadorLoginDto() {
     }
 
-    public LoginReq(String email, String password) {
+    public  CuidadorLoginDto(String email, String password) {
         this.email = email;
         this.password = password;
     }

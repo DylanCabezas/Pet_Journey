@@ -2,7 +2,9 @@ package com.dbp.pet_journey.usuario.domain;
 
 import com.dbp.pet_journey.Exceptions.ResourceConflictException;
 import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
+import com.dbp.pet_journey.auth.domain.Role;
 import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
+import com.dbp.pet_journey.auth.dto.LoginReq;
 import com.dbp.pet_journey.config.JwtService;
 import com.dbp.pet_journey.cuidador.domain.Cuidador;
 import com.dbp.pet_journey.mail.domain.EmailService;
@@ -26,6 +28,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,12 +55,17 @@ public class UsuarioService {
     private EmailService emailService;
     @Autowired
     JwtService jwtService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthenticationManager authenticationManager;
+
 
     @Value("${MAIL_USERNAME:yitzhak.namihas@utec.edu.pe}")
     String MAIL_USERNAME;
 
 
-   public ResponseEntity<UsuarioResponseDto> RegisterUsuario(UsuarioRequestDto usuarioRequestDto) {
+   public JwtAuthResponse  register(UsuarioRequestDto usuarioRequestDto) {
         if (usuarioRepository.existsByUsername(usuarioRequestDto.getUsername())) {
             throw new ResourceConflictException("El nombre de usuario ya esta en uso");
         }
@@ -64,17 +74,29 @@ public class UsuarioService {
             throw new ResourceConflictException("El correo electronico ya esta registrado");
         }
 
+
         Usuario usuario = new Usuario();
         modelMapper.map(usuarioRequestDto, usuario);
+        usuario.setRole(Role.CLIENTE);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
         var jwt = jwtService.generateToken(usuario);
-        UsuarioResponseDto usuarioResponseDto = modelMapper.map(usuario, UsuarioResponseDto.class);
-        return ResponseEntity.ok(usuarioResponseDto);
 
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwt);
+        return response;
 
-       JwtAuthResponse response = new JwtAuthResponse();
-       response.setToken(jwt);
+    }
 
+    public JwtAuthResponse login(LoginReq request) throws IllegalArgumentException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        var user = usuarioRepository.findByEmail(request.getEmail());
+        var jwt = jwtService.generateToken(user);
+
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwt);
+
+        return response;
     }
   
     public UsuarioResponseDto getUsuario(Long id) {
