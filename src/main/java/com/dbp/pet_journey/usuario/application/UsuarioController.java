@@ -95,4 +95,12 @@ public class UsuarioController {
         return ResponseEntity.ok(mascotasActualizadas);
     }
 
+    @GetMapping("/{usuarioId}/mascota/{mascotaId}")
+    public ResponseEntity<MascotaResponseDto> getMascota(
+            @PathVariable Long usuarioId,
+            @PathVariable Long mascotaId) {
+        MascotaResponseDto mascota = usuarioService.getMascota(usuarioId, mascotaId);
+        return ResponseEntity.ok(mascota);
+    }
+
 }

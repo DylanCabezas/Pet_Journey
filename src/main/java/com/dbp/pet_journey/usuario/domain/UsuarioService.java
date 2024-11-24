@@ -241,6 +241,20 @@ public class UsuarioService {
         modelMapper.map(servicio, ServicioResponseDto.class);
         return servicioResponseDto;
     }
+    public MascotaResponseDto getMascota(Long usuarioId, Long mascotaId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        Mascota mascota = mascotaRepository.findById(mascotaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Mascota no encontrada"));
+
+        if (!usuario.getMascotas().contains(mascota)) {
+            throw new ResourceNotFoundException("La mascota no pertenece a este usuario");
+        }
+
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(mascota, MascotaResponseDto.class);
+    }
 
 
 }
