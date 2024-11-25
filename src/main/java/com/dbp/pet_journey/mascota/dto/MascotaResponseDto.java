@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class MascotaResponseDto {
+    private Long id;
+
     private String name;
 
     private LocalDate fecha_nacimiento;
@@ -17,6 +19,8 @@ public class MascotaResponseDto {
     private Especie especie;
 
     private Integer age;
+
+    private Double weight;
 
     public MascotaResponseDto(String name, LocalDate fechaNacimiento, String breed, String caracteristics) {
         this.name = name;

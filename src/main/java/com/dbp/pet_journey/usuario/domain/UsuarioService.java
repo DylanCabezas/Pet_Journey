@@ -256,5 +256,10 @@ public class UsuarioService {
         return modelMapper.map(mascota, MascotaResponseDto.class);
     }
 
+    public Page<MascotaResponseDto> getMascotas(Long usuarioId, Pageable pageable) {
+        Page<Mascota> mascotas = mascotaRepository.findByUsuarioId(usuarioId, pageable);
+        return mascotas.map(mascota -> modelMapper.map(mascota, MascotaResponseDto.class));
+    }
+
 
 }

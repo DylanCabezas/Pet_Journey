@@ -103,4 +103,12 @@ public class UsuarioController {
         return ResponseEntity.ok(mascota);
     }
 
+    @GetMapping("/{usuarioId}/mascotas")
+    public ResponseEntity<Page<MascotaResponseDto>> getMascotas(
+            @PathVariable Long usuarioId,
+            @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        Page<MascotaResponseDto> mascotas = usuarioService.getMascotas(usuarioId, pageable);
+        return ResponseEntity.ok(mascotas);
+    }
+
 }
