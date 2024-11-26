@@ -79,6 +79,7 @@ public class UsuarioService {
             throw new ResourceConflictException("El correo electronico ya esta registrado");
         }
 
+        System.out.println("Register");
 
         Usuario usuario = new Usuario();
         modelMapper.map(usuarioRequestDto, usuario);

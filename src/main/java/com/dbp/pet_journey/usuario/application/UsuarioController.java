@@ -31,9 +31,14 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @GetMapping("/")
+    public ResponseEntity<String> hola(){
+        return ResponseEntity.ok("Hola Mundo!");
+    }
 
     @PostMapping("/register")
     public ResponseEntity<JwtAuthResponse> registerUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
+        System.out.println("Register");
         return ResponseEntity.ok(usuarioService.register(usuarioRequestDto));
     }
     @PostMapping("/login")
