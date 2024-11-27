@@ -44,9 +44,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(antMatcher("/auth/**")).permitAll()
-                        .requestMatchers(antMatcher("/usuario/register"), antMatcher("/usuario/login")).permitAll()
-                        .requestMatchers(antMatcher("/usuario/**")).hasAnyRole("CLIENTE")
-                        .requestMatchers(antMatcher("/cuidador/**")).hasAnyRole("CUIDADOR")
+                        .requestMatchers(antMatcher("/usuario/**"), antMatcher("/cuidador/**")).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

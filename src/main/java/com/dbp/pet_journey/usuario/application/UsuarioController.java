@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.usuario.application;
 
+import com.dbp.pet_journey.Exceptions.ResourceNotFoundException;
 import com.dbp.pet_journey.auth.dto.JwtAuthResponse;
 import com.dbp.pet_journey.auth.dto.LoginReq;
 import com.dbp.pet_journey.mascota.domain.Mascota;
@@ -18,6 +19,7 @@ import com.dbp.pet_journey.usuario.dto.UsuarioUpdateRequestDto;
 import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +38,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/debug/user")
-    public ResponseEntity<?> debugUser() {
-        Usuario usuario = usuarioRepository.findByEmail("ana@gmail.com");
+    @GetMapping("/get/{email}")
+    public ResponseEntity<?> debugUser(@PathVariable String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
         if (usuario == null) {
             return ResponseEntity.status(404).body("Usuario no encontrado");
         }
@@ -59,11 +61,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.login(req));
     }
 
-    @GetMapping("/{id}")
-    public UsuarioResponseDto getUsuario(@PathVariable Long id){
-        return usuarioService.getUsuario(id);
+    @GetMapping("/geti/{id}")
+    public ResponseEntity<?> getUsuario(@PathVariable Long id) {
+            return ResponseEntity.ok(usuarioService.getUsuario(id));
     }
-
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioResponseDto> updateUsuario(
             @PathVariable Long id,

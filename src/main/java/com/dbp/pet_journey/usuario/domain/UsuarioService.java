@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -72,6 +73,7 @@ public class UsuarioService {
         this.authenticationManager = authenticationManager;
     }
 
+    @Transactional
     public JwtAuthResponse  register(UsuarioRequestDto usuarioRequestDto) {
        logger.info("Attempting to register user with username: {}", usuarioRequestDto.getUsername());
        try{
@@ -122,7 +124,7 @@ public class UsuarioService {
 
         return response;
     }
-  
+
     public UsuarioResponseDto getUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         ModelMapper modelMapper = new ModelMapper();
