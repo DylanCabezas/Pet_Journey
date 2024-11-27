@@ -38,7 +38,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/get/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<?> debugUser(@PathVariable String email) {
         Usuario usuario = usuarioRepository.findByEmail(email);
         if (usuario == null) {
@@ -61,7 +61,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.login(req));
     }
 
-    @GetMapping("/geti/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getUsuario(@PathVariable Long id) {
             return ResponseEntity.ok(usuarioService.getUsuario(id));
     }
