@@ -2,7 +2,11 @@ package com.dbp.pet_journey.servicio.dto;
 
 import com.dbp.pet_journey.servicio.domain.EstadoServicio;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ServicioRequestDto {
     @Size(min = 2, max = 30)
     @NotNull

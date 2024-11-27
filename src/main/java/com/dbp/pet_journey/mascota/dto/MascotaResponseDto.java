@@ -1,10 +1,13 @@
 package com.dbp.pet_journey.mascota.dto;
 
 import com.dbp.pet_journey.mascota.domain.Especie;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.Period;
-
+@Getter
+@Setter
 public class MascotaResponseDto {
     private Long id;
 
