@@ -42,7 +42,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(antMatcher("/users/**"), antMatcher("/auth/**"),antMatcher("/usuario/**"),antMatcher("/cuidador/**")).permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(antMatcher("/auth/**")).permitAll()
+                        .requestMatchers(antMatcher("/usuario/register"), antMatcher("/usuario/login")).permitAll()
+                        .requestMatchers(antMatcher("/usuario/**")).hasAnyRole("CLIENTE")
+                        .requestMatchers(antMatcher("/cuidador/**")).hasAnyRole("CUIDADOR")
+                        .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

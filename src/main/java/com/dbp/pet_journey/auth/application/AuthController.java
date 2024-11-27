@@ -16,13 +16,13 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     public ResponseEntity<JwtAuthResponse> register(@RequestBody UserAccount req) {
         return ResponseEntity.ok(authService.register(req));
-    }
+    }*/
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
         return ResponseEntity.ok(authService.login(req));
-    }
+    }*/
 }

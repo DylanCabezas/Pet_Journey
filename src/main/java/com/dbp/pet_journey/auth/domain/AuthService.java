@@ -23,7 +23,7 @@ public class AuthService {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    public JwtAuthResponse register(UserAccount user) {
+    /*public JwtAuthResponse register(UserAccount user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
@@ -33,9 +33,9 @@ public class AuthService {
         response.setToken(jwt);
 
         return response;
-    }
+    }*/
 
-    public JwtAuthResponse login(LoginReq request) throws IllegalArgumentException {
+    /*public JwtAuthResponse login(LoginReq request) throws IllegalArgumentException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findByEmail(request.getEmail());
         var jwt = jwtService.generateToken(user);
@@ -44,5 +44,5 @@ public class AuthService {
         response.setToken(jwt);
 
         return response;
-    }
+    }*/
 }

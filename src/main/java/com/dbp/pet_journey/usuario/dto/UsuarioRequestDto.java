@@ -1,5 +1,6 @@
 package com.dbp.pet_journey.usuario.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -23,12 +24,13 @@ public class UsuarioRequestDto {
     @Size(min = 8, max = 20, message = "La contraseña debe tener entre 8 y 20 caracteres")
     @NotNull
     @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$",
-            message = "La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial")
+            regexp = "^(?=.*[A-Z])(?=.*[0-9]).*$",
+            message = "La contraseña debe contener al menos una letra mayúscula y un número")
     private String password;
 
     @Email
     @NotNull
+    @Column(unique = true)
     private String email;
 
     @Size(min = 9, max = 9)

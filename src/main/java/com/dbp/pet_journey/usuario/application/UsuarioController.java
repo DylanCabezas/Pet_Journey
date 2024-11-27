@@ -11,9 +11,11 @@ import com.dbp.pet_journey.servicio.dto.ServicioRequestDto;
 import com.dbp.pet_journey.servicio.dto.ServicioResponseDto;
 import com.dbp.pet_journey.usuario.domain.Usuario;
 import com.dbp.pet_journey.usuario.domain.UsuarioService;
+import com.dbp.pet_journey.usuario.dto.UsuarioLoginDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioRequestDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioResponseDto;
 import com.dbp.pet_journey.usuario.dto.UsuarioUpdateRequestDto;
+import com.dbp.pet_journey.usuario.infraestructure.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,18 +33,29 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @GetMapping("/debug/user")
+    public ResponseEntity<?> debugUser() {
+        Usuario usuario = usuarioRepository.findByEmail("ana@gmail.com");
+        if (usuario == null) {
+            return ResponseEntity.status(404).body("Usuario no encontrado");
+        }
+        return ResponseEntity.ok(usuario);
+    }
+
     @GetMapping("/")
     public ResponseEntity<String> hola(){
         return ResponseEntity.ok("Hola Mundo!");
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtAuthResponse> registerUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
-        System.out.println("Register");
+    public ResponseEntity<JwtAuthResponse> register(@RequestBody @Valid UsuarioRequestDto usuarioRequestDto){
         return ResponseEntity.ok(usuarioService.register(usuarioRequestDto));
     }
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody @Valid UsuarioLoginDto req) {
         return ResponseEntity.ok(usuarioService.login(req));
     }
 

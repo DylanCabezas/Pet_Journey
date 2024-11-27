@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,6 @@ public class Usuario implements UserDetails {
 
     private String name;
 
-    @Column(unique = true)
     private String username;
 
     private String password;
@@ -48,7 +48,9 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return Collections.singletonList(
+                new SimpleGrantedAuthority(this.role.getSpringSecurityRole())
+        );
     }
 
     @Override
